@@ -20,6 +20,19 @@ namespace :SO do
 			end
 		end
 	end
+	
+	desc 'Run watchr'
+	task :watchr do
+		require 'rubygems'
+		require 'watchr'
+		script = Watchr::Script.new
+		all_files = [Dir['src/*.js'], Dir['css/*.css']].join('|')
+		script.watch(all_files) do |file|
+			Rake::Task["SO:build"].execute
+		end
+		controller = Watchr::Controller.new(script, Watchr.handler.new)
+		controller.run
+	end
 end
 
 # process file by parsing //=INSERT_FILE*= instructions

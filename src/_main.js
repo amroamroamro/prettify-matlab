@@ -51,6 +51,14 @@ var fallthroughStylePatterns = [
 	*/
 	[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
 
+	// do not misdetect the transpose operator ' as the start of a string
+	//[PR.PR_PLAIN, /^(?<![0-9a-zA-Z_\)\]\}\.])'/, null],	// JS does not support negative lookbehind
+	[PR.PR_PLAIN, /^(?:[0-9a-zA-Z_\)\]\}\.])'/, null],		// therfore do this before detecting valid strings
+
+	// single-quoted strings: allow for escaping with '', no multilines
+	//[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null, "'"],	// try to avoid confusion with transpose by checking before/after context (using negative lookbehind, and positive lookahead)
+	[PR.PR_STRING, /^'(?:[^']|'')*'/, null, "'"],
+
 	// list of keywords (`iskeyword`)
 	[PR.PR_KEYWORD, /^\b(?:break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while)\b/, null],
 
@@ -59,6 +67,11 @@ var fallthroughStylePatterns = [
 
 	// some data types
 	[PR.PR_TYPE, /^\b(?:cell|struct|char|double|single|logical|u?int(?:8|16|32|64)|sparse)\b/, null],
+
+	// valid variable names (start with letter, and contains letters, digits, and underscores).
+	// HACK: if it is followed by transpose, match except last character which will be matched
+	// on the next iteration (along with the ') as PR_PLAIN by the "dont misdetect" pattern
+	[PR.PR_PLAIN, /^[a-zA-Z][a-zA-Z0-9_]*(?!')/, null],
 
 	// floating point numbers: 1, 1.0, 1i, -1.1E-1
 	[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null]

@@ -1,6 +1,8 @@
 @media screen {
 	/* plain text: #000; */
 	.lang-matlab .pln { color: #000000; }
+	/* strings: #080; #800000; */
+	.lang-matlab .str { color: #A020F0; }
 	/* keywords: #00008B; */
 	.lang-matlab .kwd { color: #0000FF; }
 	/* comments: #808080; */
@@ -17,4 +19,6 @@
 	.lang-matlab .linecont { color: #0000FF; }
 	/* code output */
 	.lang-matlab .codeoutput { color: #666666; font-style: italic; }
+	/* unterminated strings */
+	.lang-matlab .untermstring { color: #B20000; }
 }

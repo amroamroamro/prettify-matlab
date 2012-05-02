@@ -46,6 +46,26 @@ single(1)
 uint8(1)
 int8(1)
 
+%%%%%%%%%%%%%%%%%% STRINGS &amp; TRANSPOSE %%%%%%%%%%%%%%%%%%
+
+plot(data');
+legend(labels)
+
+str = 'asdasd';     % this is a string
+str = 'asdas';
+str = 'sdasd''sdasd';
+
+str = ['one' 'two' 'three'];
+str = strcat('one', 'two', 'three');
+
+% matrix transpose
+M = rand(3,3)';
+x = M.';
+x = [10 20; 30, 40]';
+disp(x')
+fprintf('%d\n', x(:)')      % with comment
+{1,2}'                      % another comment
+
 %%%%%%%%%%%%%%%%%% LINE CONTINUATION %%%%%%%%%%%%%%%%%%
 
 [1 20; ...

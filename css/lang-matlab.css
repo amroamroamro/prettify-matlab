@@ -3,6 +3,8 @@
 	.lang-matlab .pln { color: #000000; }
 	/* comments: #808080; */
 	.lang-matlab .com { color: #228B22; }
+	/* literals: #066; #000; */
+	.lang-matlab .lit { color: #800000; }
 	/* system commands */
 	.lang-matlab .syscmd { color: #B28C00; }
 	/* line continuation */

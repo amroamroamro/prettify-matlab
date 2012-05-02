@@ -51,6 +51,8 @@
 		*/
 		[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
 	
+		// floating point numbers: 1, 1.0, 1i, -1.1E-1
+		[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null]
 	];
 	
 	PR.registerLangHandler(

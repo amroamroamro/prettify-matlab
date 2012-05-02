@@ -35,6 +35,8 @@
 		'	.lang-matlab .pln { color: #000000; }',
 		'	/* comments: #808080; */',
 		'	.lang-matlab .com { color: #228B22; }',
+		'	/* literals: #066; #000; */',
+		'	.lang-matlab .lit { color: #800000; }',
 		'	/* system commands */',
 		'	.lang-matlab .syscmd { color: #B28C00; }',
 		'	/* line continuation */',
@@ -122,6 +124,9 @@
 				     VAL
 				*/
 				[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
+			
+				// floating point numbers: 1, 1.0, 1i, -1.1E-1
+				[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null]
 			];
 			
 			PR.registerLangHandler(

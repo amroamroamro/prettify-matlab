@@ -17,6 +17,8 @@
 	.lang-matlab .syscmd { color: #B28C00; }
 	/* line continuation */
 	.lang-matlab .linecont { color: #0000FF; }
+	/* functions: #2B91AF; #004444; #444400; #440044; */
+	.lang-matlab .fun { color: #2B91AF; }
 	/* code output */
 	.lang-matlab .codeoutput { color: #666666; font-style: italic; }
 	/* unterminated strings */

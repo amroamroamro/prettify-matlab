@@ -163,6 +163,64 @@ end
 %# comment
 %% comment
 %#x = sum(x);
+
+%{
+block comment
+%}
+
+%{
+%}
+
+%{
+
+%}
+
+%{
+1
+2
+%}
+
+%{
+% sdf {}
+sdf
+%asda{}
+sfds
+%}
+
+    %{
+dsf
+        %}
+
+%{%}
+
+%{ zzz=10; %}
+
+%{%x=10;%}
+
+%{  x
+a=10;
+%}
+
+%{
+%a=10;
+%}   x
+
+% nested block comments fail
+%{
+dfsdf
+%{
+xxx
+%}
+dfsdf
+%}
+
+% fails here!
+%{
+x=10;
+%%{
+%%}
+y=20;
+%}
 </code>
 </pre>
 

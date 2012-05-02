@@ -9,6 +9,8 @@
 	.lang-matlab .typ { color: #000000; font-weight: bold; }
 	/* literals: #066; #000; */
 	.lang-matlab .lit { color: #800000; }
+	/* punctuation: #660; */
+	.lang-matlab .pun { color: #000000; }
 	/* system commands */
 	.lang-matlab .syscmd { color: #B28C00; }
 	/* line continuation */

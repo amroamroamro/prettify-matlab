@@ -1,4 +1,12 @@
 @media screen {
-	/* plain text */
+	/* plain text: #000; */
 	.lang-matlab .pln { color: #000000; }
+	/* comments: #808080; */
+	.lang-matlab .com { color: #228B22; }
+	/* system commands */
+	.lang-matlab .syscmd { color: #B28C00; }
+	/* line continuation */
+	.lang-matlab .linecont { color: #0000FF; }
+	/* code output */
+	.lang-matlab .codeoutput { color: #666666; font-style: italic; }
 }

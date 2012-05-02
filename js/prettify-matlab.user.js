@@ -31,8 +31,16 @@
 	// insert our custom CSS styles
 	style_inject([
 		'@media screen {',
-		'	/* plain text */',
+		'	/* plain text: #000; */',
 		'	.lang-matlab .pln { color: #000000; }',
+		'	/* comments: #808080; */',
+		'	.lang-matlab .com { color: #228B22; }',
+		'	/* system commands */',
+		'	.lang-matlab .syscmd { color: #B28C00; }',
+		'	/* line continuation */',
+		'	.lang-matlab .linecont { color: #0000FF; }',
+		'	/* code output */',
+		'	.lang-matlab .codeoutput { color: #666666; font-style: italic; }',
 		'}'
 	].join(""));
 
@@ -86,13 +94,34 @@
 				PR_ATTRIB_NAME: sgml attribute name
 				PR_ATTRIB_VALUE: sgml attribute value
 			*/
+			var PR_SYSCMD = "syscmd",
+				PR_LINE_CONTINUATION = "linecont",
+				PR_CODE_OUTPUT = "codeoutput";
 			
 			// patterns that always start with a known character. Must have a shortcut string.
 			var shortcutStylePatterns = [
+				// whitespaces: space, tab, carriage return, line feed, line tab, form-feed, non-break space
+				[PR.PR_PLAIN, /^[ \t\r\n\v\f\xA0]+/, null, " \t\r\n\u000b\u000c\u00a0"],
+			
+				// single-line comments
+				[PR.PR_COMMENT, /^%[^\r\n]*/, null, "%"],
+			
+				// system commands
+				[PR_SYSCMD, /^![^\r\n]*/, null, "!"]
 			];
 			
 			// patterns that will be tried in order if the shortcut ones fail. May have shortcuts.
 			var fallthroughStylePatterns = [
+				// line continuation
+				[PR_LINE_CONTINUATION, /^\.\.\.\s*[\r\n]/, null],
+			
+				// command outputs (both loose/compact format)
+				/*
+				>> EXP
+				VAR = 
+				     VAL
+				*/
+				[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
 			];
 			
 			PR.registerLangHandler(

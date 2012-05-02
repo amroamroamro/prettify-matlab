@@ -3,6 +3,7 @@
 // @namespace      StackExchange_GoogleCodePrettify_MATLAB
 // @description    Adds simple MATLAB syntax highlighting on StackOverflow
 // @author         Amro <amroamroamro@gmail.com>
+// @license        MIT License
 // @icon           http://cdn.sstatic.net/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end

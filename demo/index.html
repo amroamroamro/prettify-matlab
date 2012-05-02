@@ -30,6 +30,8 @@
 
 <pre class="prettyprint lang-matlab">
 <code>
+%%%%%%%%%%%%%%%%%% DATA TYPES %%%%%%%%%%%%%%%%%%
+
 v = [1,2,3;4,5,6];
 v(v>4) = 0;
 
@@ -38,6 +40,11 @@ s.key = 2;
 
 C = cell(1,2);
 C{1,1} = 0:9;
+
+double(1)
+single(1)
+uint8(1)
+int8(1)
 
 %%%%%%%%%%%%%%%%%% LINE CONTINUATION %%%%%%%%%%%%%%%%%%
 
@@ -66,6 +73,56 @@ ans =
 ans =
 
      2
+
+%%%%%%%%%%%%%%%%%% KEYWORDS %%%%%%%%%%%%%%%%%%
+
+function ret = fcn(in)
+	ret = sum(in.^2);
+end
+
+classdef CC &lt; handle
+	properties (SetAccess = public)
+		x = 0;
+	end
+	methods
+		function this = CC(varargin)
+			this.x = 9;
+		end
+	end
+end
+
+x = [];
+parfor i=1:10
+	x[i] = i;
+end
+
+true ~= false
+
+if x==1
+	true
+elseif
+	false
+else
+	return
+end
+
+while true
+	continue
+	break
+end
+
+try
+	error('aa:aa', 'asdasd')
+catch ME
+	warning(ME)
+end
+
+switch x
+	case 1
+		disp(1)
+	otherwise
+		0
+end
 
 %%%%%%%%%%%%%%%%%% NUM LITERALS %%%%%%%%%%%%%%%%%%
 
@@ -97,6 +154,15 @@ ans =
 -1.001i
 +1e-100j
 -.10e-01i
+
+%%%%%%%%%%%%%%%%%% COMMENTS %%%%%%%%%%%%%%%%%%
+
+% % comment % %
+   % comment
+% comment
+%# comment
+%% comment
+%#x = sum(x);
 </code>
 </pre>
 

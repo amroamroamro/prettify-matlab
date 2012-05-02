@@ -1,6 +1,8 @@
 @media screen {
 	/* plain text: #000; */
 	.lang-matlab .pln { color: #000000; }
+	/* keywords: #00008B; */
+	.lang-matlab .kwd { color: #0000FF; }
 	/* comments: #808080; */
 	.lang-matlab .com { color: #228B22; }
 	/* literals: #066; #000; */

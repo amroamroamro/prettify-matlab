@@ -7,6 +7,9 @@ Overflow and other SE sites.
 USAGE
 -----
 
+ - run `rake SO:build`. This will create the output javascript files in `js`
+   from templates sources in `src`.
+
  - For the Greasemonkey userscript, install the `prettify-matlab.user.js`.
    This shall apply the MATLAB syntax highlighting on Stack Overflow for
    questions with the `matlab` tag.

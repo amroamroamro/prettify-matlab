@@ -3,6 +3,7 @@
 // @namespace      StackExchange_GoogleCodePrettify_MATLAB
 // @description    Adds simple MATLAB syntax highlighting on StackOverflow
 // @author         Amro <amroamroamro@gmail.com>
+// @version        1.0
 // @license        MIT License
 // @icon           http://cdn.sstatic.net/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
@@ -48,7 +49,7 @@
 		'	.lang-matlab .linecont { color: #0000FF; }',
 		'	/* code output */',
 		'	.lang-matlab .codeoutput { color: #666666; font-style: italic; }',
-		'}'
+		'}',
 	].join(""));
 
 	script_inject(function () {

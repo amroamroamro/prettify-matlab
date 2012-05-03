@@ -86,20 +86,34 @@
 				// register the new language handlers
 				RegisterMATLABLanguageHandlers();
 
-				// look for prettyprint <pre> blocks with embedded HTML5 <code> elements, and explicitly specify the language as MATLAB
-				document.getElementById('prettify-lang').textContent = 'lang-matlab';	// lang for the whole page
+				// explicitly specify the lang for the whole page
+				document.getElementById('prettify-lang').textContent = 'lang-matlab';
+				// for each prettyprint <pre> blocks
 				var blocks = document.getElementsByTagName('pre');
 				for (var i = 0; i < blocks.length; ++i) {
+					// look for embedded HTML5 <code> element
 					if (blocks[i].className.indexOf('prettyprint') != -1 && blocks[i].children.length && blocks[i].children[0].tagName === 'CODE') {
+						// remove existing formatting inside <code> tag, by setting content to plain text again
+						// This was necessary on Stack Overflow to avoid "double-styling"!
+						unprettify(blocks[i].children[0]);
+						
+						// set the language to MATLAB
 						blocks[i].className = 'prettyprint lang-matlab';
 					}
 				}
 
-				// apply highlighting (calls prettyPrint() function)
+				// reapply highlighting (calls window.prettyPrint() function)
 				StackExchange.prettify.applyCodeStyling();
 			});
 		});
 
+		function unprettify(codeNode) {
+			var code = $(codeNode);		// <code> tag
+			var encodedStr = code.html().replace(/<br[^>]*>/g, "\n").replace(/&nbsp;/g, " ");	// html encoded
+			var decodedStr = $("<div/>").html(encodedStr).text();	// decode html entities
+			code.text(decodedStr);		// text() replaces special characters like `<` with `&lt;`
+		}
+		
 		function RegisterMATLABLanguageHandlers() {
 			/*
 				PR_PLAIN: plain text

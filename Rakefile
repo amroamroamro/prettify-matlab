@@ -6,7 +6,7 @@ task :default => 'SO:build'
 namespace :SO do
 	desc 'Builds both userscript and prettify extension JS files from templates'
 	task :build do
-		for name in %w[lang-matlab.js prettify-matlab.user.js]
+		for name in %w[lang-matlab.js prettify-matlab.user.js switch-lang.user.js]
 			source = File.open("src/#{name}", 'r')
 			target = File.open("js/#{name}", 'w')
 

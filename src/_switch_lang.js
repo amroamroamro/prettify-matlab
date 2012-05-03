@@ -1,4 +1,5 @@
 // REFERENCE: http://userscripts.org/scripts/show/71052
+// REFERENCE: http://davidwalsh.name/twitter-dropdown-jquery
 function add_language_selection_menu() {
 	"use strict";
 
@@ -13,15 +14,18 @@ function add_language_selection_menu() {
 	var makeClickHandler = function (pre, lang) {
 		// create closure
 		return function (e) {
+			// remove existing formatting inside <code> tag, by setting content to plain text again
+			unprettify(pre.children('code'));
+
 			// set new prettify class
 			pre.removeClass();
 			pre.addClass("prettyprint " + lang);
 
 			// change language indicated
-			pre.prev().children("a").text(lang);
+			$(this).parent().prev(".pp-lang-link").children("span").text(lang);
 
 			// hide languge menu
-			pre.prev().find(".language-menu").slideToggle();
+			//$(this).parent().slideToggle();
 
 			// re-apply syntax highlighting
 			prettyPrint();
@@ -34,76 +38,69 @@ function add_language_selection_menu() {
 	// go through each <pre> block, and add language selection menu
 	$("pre.prettyprint").each(function () {
 		// <pre> block
-		var codePRE = $(this);
+		var code = $(this);
 
 		// current language used
 		var currLang = $.trim(this.className.replace('prettyprint', ''));
 		if (!currLang) { currLang = "default"; }
 
-		// create collapsable menu DIV
-		var menu = $("<div>").addClass("language-menu").css({
-			"position": "absolute",
-			"background-color": "#ccc",
-			"padding": "10px",
-			"left": "670px",
-			"top": "-10px",
-			"z-index": "777",
-			"width": "100px",
-			"font-size": "small",
-			"text-align": "left"
-		}).hide();
+		// create <div> of language selector button
+		var button = $('<div class="pp-lang-button" title="choose language"></div>');
+
+		// create and add toggle link
+		var link = $('<a class="pp-lang-link"><span>' + currLang + '</span></a>').appendTo(button);
+
+		// create dropmenu and add to button
+		var menu = $('<div class="pp-lang-menu"></div>').appendTo(button);
+
+		// transparency animation on hover
+		button.hover(
+			function () { $(this).animate({opacity: 1.0}, 'fast'); },
+			function () { $(this).animate({opacity: 0.7}); }
+		);
+
+		// button is click event
+		link.click(function (e) {
+			// set button as active/non-active
+			$(this).toggleClass('pp-link-active');
+
+			// show/hide menu
+			$(this).next('.pp-lang-menu').slideToggle();
+
+			// stop default link-clicking behaviour
+			e.preventDefault();
+		});
 
 		// populate it with entries for every language
 		for (var i = 0; i < languages.length; i++) {
 			// create link, hook up the click event, and add it to menu
-			$("<a>", {
-				text: languages[i],
-				css: {'cursor': 'pointer'},
-				click: makeClickHandler(codePRE, languages[i])
-			}).appendTo(menu);
-			$("<br>").appendTo(menu);
+			$('<a title="set language to: ' + languages[i] + '">' + languages[i] + '</a>')
+				.css({'cursor': 'pointer', 'font-size': 'small'})
+				.click( makeClickHandler(code, languages[i]) ).appendTo(menu);
 		}
 
-		// DIV with link to toggle menu
-		var d = $("<div>").addClass("language").css({
-			"text-align": "right",
-			"position": "relative"
-		});
-		$("<a>", {
-			text: currLang,
-			css: {'color': '#aaa', 'font-size': 'small', 'cursor': 'pointer'},
-			click: function (e) {
-				// toggle menu
-				$(this).parent().find(".language-menu").slideToggle();
-
-				// stop default link-clicking behaviour
-				e.preventDefault();
-			}
-		}).appendTo(d);
-		menu.appendTo(d);	// add menu to DIV
-
-		// add DIV to DOM
-		d.insertBefore(codePRE);
+		// add button to DOM just before the <pre> block
+		button.insertBefore(code);
 	});
 }
 
-/*
-<div.language>
-	<a></a>
-	<div.language-menu>
-		<a></a>
-		<a></a>
-		<br/>
-	</div>
-<div>
-<pre.prettyprint>
-	<code></code>
-</pre>
-*/
+function unprettify(codeNode) {
+	// Note: el.innerHTML, el.textContent vs. $(el).html(), $(el).text()
+	var code = $(codeNode);
+	var encodedStr = code.html().replace(/<br[^>]*>/g, "\n").replace(/&nbsp;/g, " ");	// html encoded
+	var decodedStr = $("<div/>").html(encodedStr).text();	// decode html entities
+	code.text(decodedStr);		// text() replaces special characters like `<` with `&lt;`
+}
 
 /*
-// add to onReady queue of SE scripts
-StackExchange.ready(function () {
-	create_language_menus();
-});
+<div class="pp-lang-button">
+	<a class="pp-lang-link"><span>Language</span></a>
+	<div class="pp-lang-menu">
+		<a></a>
+		<a></a>
+	</div>
+</div>
+<pre class="prettyprint">
+	<code></code>
+</pre>
 */

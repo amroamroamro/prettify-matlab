@@ -30,6 +30,11 @@
 		document.getElementsByTagName('head')[0].appendChild(style);
 	}
 
+	// activate only on an actual question page (ignore question lists, tag pages, and such)
+	if ( !/^\/questions\/(\d+|ask)/.test(window.location.pathname) ) {
+		return;
+	}
+	
 	// insert our custom CSS styles
 	style_inject([
 		'@media screen {',

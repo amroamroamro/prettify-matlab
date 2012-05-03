@@ -74,13 +74,10 @@
 		// line continuation
 		[PR_LINE_CONTINUATION, /^\.\.\.\s*[\r\n]/, null],
 	
-		// command outputs (both loose/compact format)
-		/*
-		>> EXP
-		VAR = 
-		     VAL
-		*/
-		[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
+		// command prompt
+		//[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],		// full command output (both loose/compact format): `>> EXP\nVAR =\n VAL`
+		[PR_CODE_OUTPUT, /^>>\s+/, null],			// only the command prompt `>> `
+		[PR_CODE_OUTPUT, /^octave:\d+>\s+/, null],	// Octvae command prompt `octave:1> `
 	
 		// do not misdetect the transpose operator ' as the start of a string
 		//[PR.PR_PLAIN, /^(?<![0-9a-zA-Z_\)\]\}\.])'/, null],	// JS does not support negative lookbehind

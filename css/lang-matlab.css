@@ -20,7 +20,7 @@
 	/* functions: #2B91AF; #004444; #444400; #440044; */
 	.lang-matlab .fun { color: #2B91AF; }
 	/* code output */
-	.lang-matlab .codeoutput { color: #666666; font-style: italic; }
+	.lang-matlab .codeoutput { color: #666666; }
 	/* unterminated strings */
 	.lang-matlab .untermstring { color: #B20000; }
 }

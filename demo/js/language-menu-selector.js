@@ -1,11 +1,15 @@
-// Adapted from: http://userscripts.org/scripts/show/71052
-function create_language_menus() {
+// REFERENCE: http://userscripts.org/scripts/show/71052
+function add_language_selection_menu() {
 	"use strict";
+
+	// we require jQuery to be already loaded in the page
+	if (typeof jQuery == 'undefined') { return; }
 
 	// languages CSS classes
 	var languages = ["default", "lang-html", "lang-c", "lang-java", "lang-cs",
 		"lang-sh", "lang-pl", "lang-py", "lang-rb", "lang-js", "lang-matlab"];
 
+	// return closure
 	var makeClickHandler = function (pre, lang) {
 		// create closure
 		return function (e) {
@@ -27,8 +31,8 @@ function create_language_menus() {
 		};
 	};
 
-	// add language selection menu to each <pre> block
-	$(".prettyprint").each(function () {
+	// go through each <pre> block, and add language selection menu
+	$("pre.prettyprint").each(function () {
 		// <pre> block
 		var codePRE = $(this);
 
@@ -50,8 +54,7 @@ function create_language_menus() {
 		}).hide();
 
 		// populate it with entries for every language
-		var i;
-		for (i = 0; i < languages.length; i++) {
+		for (var i = 0; i < languages.length; i++) {
 			// create link, hook up the click event, and add it to menu
 			$("<a>", {
 				text: languages[i],

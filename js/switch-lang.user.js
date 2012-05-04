@@ -49,7 +49,7 @@
 	].join(""));
 
 	script_inject(function () {
-		// add to onReady queue of SE scripts
+		// add to onReady queue of SE (a stub for $.ready)
 		StackExchange.ready(function () {
 			add_language_selection_menu();
 		});

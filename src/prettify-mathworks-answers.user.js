@@ -54,8 +54,8 @@
 
 	// insert out JS code
 	script_inject(function () {
-		// we require jQuery
-		if (jQuery == 'undefined') { return; }
+		// we require jQuery to be already loaded in the page
+		if (typeof jQuery == 'undefined') { return; }
 
 		// use jQuery Deferred to load prettify JS library, then execute our code
 		$.ajax({
@@ -67,7 +67,7 @@
 			// register the new language handlers
 			RegisterMATLABLanguageHandlers();
 
-			// add to onReady
+			// on DOMContentLoaded
 			$(document).ready(function () {
 				// for each <pre.language-matlab> blocks
 				var blocks = document.getElementsByTagName('pre');

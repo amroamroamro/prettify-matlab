@@ -8,10 +8,11 @@ and other Stack Exchange sites.
 Currently the code recognizes the following constructs:
 
  - single line as well as block comments (`% this is a comment`)
- - quoted string (`'hello world`)
+ - quoted string (`'hello world'`)
  - number literals (`1`, `-2.5`, `1i`, `2.9E-5`, etc...)
  - system commands (`!touch filename`)
  - line continuation characters (`...`)
+ - transpose operator (single quote) vs. strings
  - command prompt/command output (`>> now`)
  - MATLAB language keywords (`if`, `else`, `end`, etc...)
  - some special variables and constants (`inf`, `nan`, `varargin`, etc..)

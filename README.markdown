@@ -18,6 +18,8 @@ Currently the code recognizes the following constructs:
  - some special variables and constants (`inf`, `nan`, `varargin`, etc..)
  - over 600 of the most commly used builtin functions (`cos`, `plot`, etc...)
 
+See the wiki for sample screenshots.
+
 
 BUILDING
 --------

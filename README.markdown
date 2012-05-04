@@ -57,8 +57,8 @@ google-code-prettify extension
 ------------------------------
 
 To apply the MALTAB syntax highlighting on code snippets in your own web pages,
-first include the script and stylesheets in your document (as explained in the
-[prettify][1] project documentation). To use the MATLAB language extension,
+first include the prettify scripts and stylesheets in your document (as explained
+in the [prettify][1] project documentation). To use the MATLAB language extension,
 include the `js/lang-matlab.js` script, and place your source code inside a
 preformatted HTML tag as follows:
 
@@ -74,6 +74,8 @@ Upon calling `prettyPrint()`, this will automatically be pretty printed, and the
 default styles will be applied. You can customize them with your own, or use the
 provided CSS file in `css/lang-matlab.css` which resembles the color scheme of
 the MATLAB IDE (with some additions of my own).
+
+Check the `demo/index.html` file for a demonstration.
 
 
 [1]: http://code.google.com/p/google-code-prettify/

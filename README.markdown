@@ -1,37 +1,83 @@
 MATLAB syntax highlighting for google code prettify
 ===================================================
 
-This gives you MATLAB syntax highlighting. Intended to be used on Stack
-Overflow and other SE sites.
+This script provides MATLAB syntax highlighting for the
+[google-code-prettify][1] project. Intended to be used on [Stack Overflow][2]
+and other Stack Exchange sites.
 
-USAGE
------
+Currently the code recognizes the following constructs:
 
- - run `rake SO:build`. This will create the output javascript files in `js`
-   from templates sources in `src`.
+ - single line as well as block comments (`% this is a comment`)
+ - quoted string (`'hello world`)
+ - number literals (`1`, `-2.5`, `1i`, `2.9E-5`, etc...)
+ - system commands (`!touch filename`)
+ - line continuation characters (`...`)
+ - command prompt/command output (`>> now`)
+ - MATLAB language keywords (`if`, `else`, `end`, etc...)
+ - some special variables and constants (`inf`, `nan`, `varargin`, etc..)
+ - over 600 of the most commly used builtin functions (`cos`, `plot`, etc...)
 
- - For the Greasemonkey userscript, install the `prettify-matlab.user.js`.
-   This shall apply the MATLAB syntax highlighting on Stack Overflow for
-   questions with the `matlab` tag.
 
- - To use the Prettify extension on your own page, include [prettify.js][1]
-   and `lang-matlab.js` in your HTML page, then put your source code
-   inside an HTML tag like:
+BUILDING
+--------
 
-        <pre class="prettyprint lang-matlab">
-            <code>
-            	% example code
-            	x = [1,2,3];
-            	sum(x.^2)
-            </code>
-        </pre>
+If the files don't already exist, run `rake SO:build` to create the output
+javascript files in the `js` directory using the templates sources from `src`.
+(This step requires Rake, a Make-like build tool for Ruby, used here to provide
+basic template processing).
 
-   You can use the coloring that comes by default, or customize the styles
-   with your own. A CSS file `lang-matlab.css` is provided that match the
-   color themes of the MATLAB IDE.
+
+Stack Overflow
+--------------
+
+To obtain MATLAB syntax highlighting on Stack Overflow, install the
+`js/prettify-matlab.user.js` userscript with your preferred browser (see [this
+page][3] for some instructions).
+
+The script is only activated on questions tagged [`matlab`][4].
+
+In addition, a separate userscript is included to allow switching the language
+used by the prettifier. It adds a small button to the top-right corner of each
+code block, which an attached drop-down menu to allow language selection.
+To add this functionality, install the `js/switch-lang.user.js` userscript.
+
+
+MATLAB Answers
+--------------
+
+Similarly, you can apply the syntax hightighting on [MATLAB Answers][5] website
+from MathWorks. Simply install the `js/prettify-mathworks-answers.user.js`
+userscript.
+
+
+google-code-prettify extension
+------------------------------
+
+To apply the MALTAB syntax highlighting on code snippets in your own web pages,
+first include the script and stylesheets in your document (as explained in the
+[prettify][1] project documentation). To use the MATLAB language extension,
+include the `js/lang-matlab.js` script, and place your source code inside a
+preformatted HTML tag as follows:
+
+    <pre class="prettyprint lang-matlab">
+        <code>
+       	% example code
+       	x = [1,2,3];
+       	sum(x.^2)
+        </code>
+    </pre>
+
+Upon calling `prettyPrint()`, this will automatically be pretty printed, and the
+default styles will be applied. You can customize them with your own, or use the
+provided CSS file in `css/lang-matlab.css` which resembles the color scheme of
+the MATLAB IDE (with some additions of my own).
 
 
 [1]: http://code.google.com/p/google-code-prettify/
+[2]: http://stackoverflow.com/
+[3]: http://stackapps.com/tags/script/info
+[4]: http://stackoverflow.com/questions/tagged/matlab
+[5]: http://www.mathworks.com/matlabcentral/answers/
 
 
 LICENSE

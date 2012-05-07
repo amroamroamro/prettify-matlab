@@ -41,7 +41,7 @@ The script is only activated on questions tagged [`matlab`][4].
 
 In addition, a separate userscript is included to allow switching the language
 used by the prettifier. It adds a small button to the top-right corner of each
-code block, which an attached drop-down menu to allow language selection.
+code block, with an attached drop-down menu to allow language selection.
 To add this functionality, install the `js/switch-lang.user.js` userscript.
 
 

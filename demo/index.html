@@ -262,6 +262,22 @@ y=20;
 </code>
 </pre>
 
+<pre class="prettyprint lang-matlab">
+<code>
+NET.addAssembly
+NET.addAssembly'
+
+a = struct();
+a.disp = [1,1,1];
+a.disp'
+(a.disp)'
+
+function aaa(varargin)
+	disp(varargin')
+end
+</code>
+</pre>
+
 <pre class="prettyprint lang-c">
 <code>
 #include "stdio.h"

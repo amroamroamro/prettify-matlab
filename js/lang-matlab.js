@@ -66,10 +66,6 @@
 	
 		// system commands
 		[PR_SYSCMD, /^![^\r\n]*/, null, "!"]
-	
-		// opening/closing paranthesis, braces, or brackets
-		//['opn', /^[\(\{\[]+/, null, '([{'],
-		//['clo', /^[\)\}\]]+/, null, ')]}'],
 	];
 	
 	// patterns that will be tried in order if the shortcut ones fail. May have shortcuts.
@@ -77,10 +73,10 @@
 		// line continuation
 		[PR_LINE_CONTINUATION, /^\.\.\.\s*[\r\n]/, null],
 	
-		// command prompt
+		// command prompt/output
 		//[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],		// full command output (both loose/compact format): `>> EXP\nVAR =\n VAL`
 		[PR_CODE_OUTPUT, /^>>\s+/, null],			// only the command prompt `>> `
-		[PR_CODE_OUTPUT, /^octave:\d+>\s+/, null],	// Octvae command prompt `octave:1> `
+		[PR_CODE_OUTPUT, /^octave:\d+>\s+/, null],	// Octave command prompt `octave:1> `
 	
 		// do not misdetect the transpose operator ' as the start of a string
 		//[PR.PR_PLAIN, /^(?<![0-9a-zA-Z_\)\]\}\.])'/, null],	// JS does not support negative lookbehind
@@ -88,7 +84,7 @@
 	
 		// single-quoted strings: allow for escaping with '', no multilines
 		//[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null, "'"],	// try to avoid confusion with transpose by checking before/after context (using negative lookbehind, and positive lookahead)
-		[PR.PR_STRING, /^'(?:[^']|'')*'/, null, "'"],
+		[PR.PR_STRING, /^'(?:[^']|'')*'/, null],	// "'"
 	
 		// list of keywords (`iskeyword`)
 		[PR.PR_KEYWORD, /^\b(?:break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while)\b/, null],
@@ -110,8 +106,11 @@
 		// floating point numbers: 1, 1.0, 1i, -1.1E-1
 		[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null]
 	
-		// operators
-		//[PR.PR_PUNCTUATION, /^[\{\}\(\)\[\]<>=~@&;,:!\-\+\*\^\.\|\\\/]+/]
+		// parentheses, braces, brackets
+		//[PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],	// "{}()[]"
+	
+		// other operators
+		//[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
 	];
 	
 	PR.registerLangHandler(

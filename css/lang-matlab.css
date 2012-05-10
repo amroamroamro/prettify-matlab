@@ -13,6 +13,10 @@
 	.lang-matlab .lit { color: #800000; }
 	/* punctuation: #660; */
 	.lang-matlab .pun { color: #000000; }
+	/* tag: #008; */
+	.lang-matlab .tag { color: #000000; }
+	/* identifiers */
+	.lang-matlab .ident { color: #000000; }
 	/* special variables/constants: darkblue */
 	.lang-matlab .const { color: #00008B; }
 	/* core functions: #2B91AF; #004444; #444400; #440044; */
@@ -27,6 +31,8 @@
 	.lang-matlab .err { color: #E60000; }
 	/* warning messages */
 	.lang-matlab .wrn { color: #FF6400; }
+	/* transpose operator */
+	.lang-matlab .transpose { color: #000000; }
 	/* line continuation */
 	.lang-matlab .linecont { color: #0000FF; }
 	/* unterminated strings */

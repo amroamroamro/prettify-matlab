@@ -3,7 +3,7 @@
 // @namespace      MathworksAnswers_GoogleCodePrettify_MATLAB
 // @description    Adds simple MATLAB syntax highlighting on Mathworks Answers
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.0
+// @version        1.1
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/answers/*

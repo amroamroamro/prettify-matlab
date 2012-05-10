@@ -3,7 +3,7 @@
 // @namespace      MathworksAnswers_GoogleCodePrettify_MATLAB
 // @description    Adds simple MATLAB syntax highlighting on Mathworks Answers
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.0
+// @version        1.1
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/answers/*
@@ -60,6 +60,10 @@
 		'	.lang-matlab .lit { color: #800000; }',
 		'	/* punctuation: #660; */',
 		'	.lang-matlab .pun { color: #000000; }',
+		'	/* tag: #008; */',
+		'	.lang-matlab .tag { color: #000000; }',
+		'	/* identifiers */',
+		'	.lang-matlab .ident { color: #000000; }',
 		'	/* special variables/constants: darkblue */',
 		'	.lang-matlab .const { color: #00008B; }',
 		'	/* core functions: #2B91AF; #004444; #444400; #440044; */',
@@ -74,6 +78,8 @@
 		'	.lang-matlab .err { color: #E60000; }',
 		'	/* warning messages */',
 		'	.lang-matlab .wrn { color: #FF6400; }',
+		'	/* transpose operator */',
+		'	.lang-matlab .transpose { color: #000000; }',
 		'	/* line continuation */',
 		'	.lang-matlab .linecont { color: #0000FF; }',
 		'	/* unterminated strings */',
@@ -131,13 +137,15 @@
 				PR_ATTRIB_NAME: sgml attribute name
 				PR_ATTRIB_VALUE: sgml attribute value
 			*/
-			var PR_CONSTANT = "const",
+			var PR_IDENTIFIER = "ident",
+				PR_CONSTANT = "const",
 				PR_FUNCTION = "fun",
 				PR_FUNCTION_TOOLBOX = "fun_tbx",
 				PR_SYSCMD = "syscmd",
 				PR_CODE_OUTPUT = "codeoutput",
 				PR_ERROR = "err",
 				PR_WARNING = "wrn",
+				PR_TRANSPOSE = "transpose",
 				PR_LINE_CONTINUATION = "linecont";
 			
 			// Refer to: http://www.mathworks.com/help/techdoc/ref/f16-6011.html
@@ -145,6 +153,12 @@
 			var statsFunctions = 'addedvarplot|andrewsplot|anova1|anova2|anovan|ansaribradley|aoctool|barttest|bbdesign|betacdf|betafit|betainv|betalike|betapdf|betarnd|betastat|binocdf|binofit|binoinv|binopdf|binornd|binostat|biplot|bootci|bootstrp|boxplot|candexch|candgen|canoncorr|capability|capaplot|caseread|casewrite|categorical|ccdesign|cdfplot|chi2cdf|chi2gof|chi2inv|chi2pdf|chi2rnd|chi2stat|cholcov|ClassificationBaggedEnsemble|ClassificationDiscriminant(?:\.(?:fit|make|template))?|ClassificationEnsemble|ClassificationKNN(?:\.(?:fit|template))?|ClassificationPartitionedEnsemble|ClassificationPartitionedModel|ClassificationTree(?:\.(?:fit|template))?|classify|classregtree|cluster|clusterdata|cmdscale|combnk|CompactClassificationDiscriminant|CompactClassificationEnsemble|CompactClassificationTree|CompactRegressionEnsemble|CompactRegressionTree|CompactTreeBagger|confusionmat|controlchart|controlrules|cophenet|copulacdf|copulafit|copulaparam|copulapdf|copularnd|copulastat|cordexch|corr|corrcov|coxphfit|createns|crosstab|crossval|cvpartition|datasample|dataset|daugment|dcovary|dendrogram|dfittool|disttool|dummyvar|dwtest|ecdf|ecdfhist|evcdf|evfit|evinv|evlike|evpdf|evrnd|evstat|ExhaustiveSearcher|expcdf|expfit|expinv|explike|exppdf|exprnd|expstat|factoran|fcdf|ff2n|finv|fitdist|fitensemble|fpdf|fracfact|fracfactgen|friedman|frnd|fstat|fsurfht|fullfact|gagerr|gamcdf|gamfit|gaminv|gamlike|gampdf|gamrnd|gamstat|GeneralizedLinearModel(?:\.fit)?|geocdf|geoinv|geomean|geopdf|geornd|geostat|gevcdf|gevfit|gevinv|gevlike|gevpdf|gevrnd|gevstat|gline|glmfit|glmval|glyphplot|gmdistribution(?:\.fit)?|gname|gpcdf|gpfit|gpinv|gplike|gplotmatrix|gppdf|gprnd|gpstat|grp2idx|grpstats|gscatter|haltonset|harmmean|hist3|histfit|hmmdecode|hmmestimate|hmmgenerate|hmmtrain|hmmviterbi|hougen|hygecdf|hygeinv|hygepdf|hygernd|hygestat|icdf|inconsistent|interactionplot|invpred|iqr|iwishrnd|jackknife|jbtest|johnsrnd|KDTreeSearcher|kmeans|knnsearch|kruskalwallis|ksdensity|kstest|kstest2|kurtosis|lasso|lassoglm|lassoPlot|leverage|lhsdesign|lhsnorm|lillietest|LinearModel(?:\.fit)?|linhyptest|linkage|logncdf|lognfit|logninv|lognlike|lognpdf|lognrnd|lognstat|lsline|mad|mahal|maineffectsplot|manova1|manovacluster|mdscale|mhsample|mle|mlecov|mnpdf|mnrfit|mnrnd|mnrval|moment|multcompare|multivarichart|mvncdf|mvnpdf|mvnrnd|mvregress|mvregresslike|mvtcdf|mvtpdf|mvtrnd|NaiveBayes(?:\.fit)?|nancov|nanmax|nanmean|nanmedian|nanmin|nanstd|nansum|nanvar|nbincdf|nbinfit|nbininv|nbinpdf|nbinrnd|nbinstat|ncfcdf|ncfinv|ncfpdf|ncfrnd|ncfstat|nctcdf|nctinv|nctpdf|nctrnd|nctstat|ncx2cdf|ncx2inv|ncx2pdf|ncx2rnd|ncx2stat|NeighborSearcher|nlinfit|nlintool|nlmefit|nlmefitsa|nlparci|nlpredci|nnmf|nominal|NonLinearModel(?:\.fit)?|normcdf|normfit|norminv|normlike|normpdf|normplot|normrnd|normspec|normstat|ordinal|outlierMeasure|parallelcoords|paretotails|partialcorr|pcacov|pcares|pdf|pdist|pdist2|pearsrnd|perfcurve|perms|piecewisedistribution|plsregress|poisscdf|poissfit|poissinv|poisspdf|poissrnd|poisstat|polyconf|polytool|prctile|princomp|ProbDist|ProbDistKernel|ProbDistParametric|ProbDistUnivKernel|ProbDistUnivParam|probplot|procrustes|qqplot|qrandset|qrandstream|quantile|randg|random|randsample|randtool|range|rangesearch|ranksum|raylcdf|raylfit|raylinv|raylpdf|raylrnd|raylstat|rcoplot|refcurve|refline|regress|RegressionBaggedEnsemble|RegressionEnsemble|RegressionPartitionedEnsemble|RegressionPartitionedModel|RegressionTree(?:\.(?:fit|template))?|regstats|relieff|ridge|robustdemo|robustfit|rotatefactors|rowexch|rsmdemo|rstool|runstest|sampsizepwr|scatterhist|sequentialfs|signrank|signtest|silhouette|skewness|slicesample|sobolset|squareform|statget|statset|stepwise|stepwisefit|surfht|tabulate|tblread|tblwrite|tcdf|tdfread|tiedrank|tinv|tpdf|TreeBagger|treedisp|treefit|treeprune|treetest|treeval|trimmean|trnd|tstat|ttest|ttest2|unidcdf|unidinv|unidpdf|unidrnd|unidstat|unifcdf|unifinv|unifit|unifpdf|unifrnd|unifstat|vartest|vartest2|vartestn|wblcdf|wblfit|wblinv|wbllike|wblpdf|wblplot|wblrnd|wblstat|wishrnd|x2fx|xptread|zscore|ztest';
 			var imageFunctions = 'adapthisteq|analyze75info|analyze75read|applycform|applylut|axes2pix|bestblk|blockproc|bwarea|bwareaopen|bwboundaries|bwconncomp|bwconvhull|bwdist|bwdistgeodesic|bweuler|bwhitmiss|bwlabel|bwlabeln|bwmorph|bwpack|bwperim|bwselect|bwtraceboundary|bwulterode|bwunpack|checkerboard|col2im|colfilt|conndef|convmtx2|corner|cornermetric|corr2|cp2tform|cpcorr|cpselect|cpstruct2pairs|dct2|dctmtx|deconvblind|deconvlucy|deconvreg|deconvwnr|decorrstretch|demosaic|dicomanon|dicomdict|dicominfo|dicomlookup|dicomread|dicomuid|dicomwrite|edge|edgetaper|entropy|entropyfilt|fan2para|fanbeam|findbounds|fliptform|freqz2|fsamp2|fspecial|ftrans2|fwind1|fwind2|getheight|getimage|getimagemodel|getline|getneighbors|getnhood|getpts|getrangefromclass|getrect|getsequence|gray2ind|graycomatrix|graycoprops|graydist|grayslice|graythresh|hdrread|hdrwrite|histeq|hough|houghlines|houghpeaks|iccfind|iccread|iccroot|iccwrite|idct2|ifanbeam|im2bw|im2col|im2double|im2int16|im2java2d|im2single|im2uint16|im2uint8|imabsdiff|imadd|imadjust|ImageAdapter|imageinfo|imagemodel|imapplymatrix|imattributes|imbothat|imclearborder|imclose|imcolormaptool|imcomplement|imcontour|imcontrast|imcrop|imdilate|imdisplayrange|imdistline|imdivide|imellipse|imerode|imextendedmax|imextendedmin|imfill|imfilter|imfindcircles|imfreehand|imfuse|imgca|imgcf|imgetfile|imhandles|imhist|imhmax|imhmin|imimposemin|imlincomb|imline|immagbox|immovie|immultiply|imnoise|imopen|imoverview|imoverviewpanel|impixel|impixelinfo|impixelinfoval|impixelregion|impixelregionpanel|implay|impoint|impoly|impositionrect|improfile|imputfile|impyramid|imreconstruct|imrect|imregconfig|imregionalmax|imregionalmin|imregister|imresize|imroi|imrotate|imsave|imscrollpanel|imshow|imshowpair|imsubtract|imtool|imtophat|imtransform|imview|ind2gray|ind2rgb|interfileinfo|interfileread|intlut|ippl|iptaddcallback|iptcheckconn|iptcheckhandle|iptcheckinput|iptcheckmap|iptchecknargin|iptcheckstrs|iptdemos|iptgetapi|iptGetPointerBehavior|iptgetpref|ipticondir|iptnum2ordinal|iptPointerManager|iptprefs|iptremovecallback|iptSetPointerBehavior|iptsetpref|iptwindowalign|iradon|isbw|isflat|isgray|isicc|isind|isnitf|isrgb|isrset|lab2double|lab2uint16|lab2uint8|label2rgb|labelmatrix|makecform|makeConstrainToRectFcn|makehdr|makelut|makeresampler|maketform|mat2gray|mean2|medfilt2|montage|nitfinfo|nitfread|nlfilter|normxcorr2|ntsc2rgb|openrset|ordfilt2|otf2psf|padarray|para2fan|phantom|poly2mask|psf2otf|qtdecomp|qtgetblk|qtsetblk|radon|rangefilt|reflect|regionprops|registration\.metric\.(?:MattesMutualInformation|MeanSquares)|registration\.optimizer\.(?:OnePlusOneEvolutionary|RegularStepGradientDescent)|rgb2gray|rgb2ntsc|rgb2ycbcr|roicolor|roifill|roifilt2|roipoly|rsetwrite|std2|stdfilt|strel|stretchlim|subimage|tformarray|tformfwd|tforminv|tonemap|translate|truesize|uintlut|viscircles|warp|watershed|whitepoint|wiener2|xyz2double|xyz2uint16|ycbcr2rgb';
 			var optimFunctions = 'bintprog|color|fgoalattain|fminbnd|fmincon|fminimax|fminsearch|fminunc|fseminf|fsolve|fzero|fzmult|gangstr|ktrlink|linprog|lsqcurvefit|lsqlin|lsqnonlin|lsqnonneg|optimget|optimset|optimtool|quadprog';
+			
+			// identifiers: variable/function name, or a chain of variable names joined by dots (obj.method, struct.field1.field2, etc..)
+			// valid variable names (start with letter, and contains letters, digits, and underscores).
+			// we match "xx.yy" as a whole so that if "xx" is plain and "yy" is not, we dont get a false positive for "yy"
+			//var reIdent = '(?:[a-zA-Z][a-zA-Z0-9_]*)';
+			//var reIdentChain = '(?:' + reIdent + '(?:\.' + reIdent + ')*' + ')';
 			
 			// patterns that always start with a known character. Must have a shortcut string.
 			var shortcutStylePatterns = [
@@ -180,14 +194,29 @@
 				[PR_CODE_OUTPUT, /^>>\s+/, null],			// only the command prompt `>> `
 				[PR_CODE_OUTPUT, /^octave:\d+>\s+/, null],	// Octave command prompt `octave:1> `
 			
-				// do not misdetect the transpose operator ' as the start of a string
-				//[PR.PR_PLAIN, /^(?<![0-9a-zA-Z_\)\]\}\.])'/, null],	// JS does not support negative lookbehind
-				[PR.PR_PLAIN, /^(?:[0-9a-zA-Z_\)\]\}\.])'/, null],		// therfore do this before detecting valid strings
+				// identifier (chain) or closing-parenthesis/brace/bracket, and IS followed by transpose operator
+				// this way we dont misdetect the transpose operator ' as the start of a string
+				["lang-matlab-operators", /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
+			
+				// identifier (chain), and NOT followed by transpose operator
+				// this must come AFTER the "is followed by transpose" step (otherwise it chops the last char of identifier)
+				["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
 			
 				// single-quoted strings: allow for escaping with '', no multilines
-				//[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null, "'"],	// try to avoid confusion with transpose by checking before/after context (using negative lookbehind, and positive lookahead)
+				//[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null],	// string vs. transpose (check before/after context using negative/positive lookbehind/lookahead)
 				[PR.PR_STRING, /^'(?:[^']|'')*'/, null],	// "'"
 			
+				// floating point numbers: 1, 1.0, 1i, -1.1E-1
+				[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null],
+			
+				// parentheses, braces, brackets
+				[PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],	// "{}()[]"
+			
+				// other operators
+				[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
+			];
+			
+			var identifiersPatterns = [
 				// list of keywords (`iskeyword`)
 				[PR.PR_KEYWORD, /^\b(?:break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while)\b/, null],
 			
@@ -203,21 +232,32 @@
 				[PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + imageFunctions + ')\\b'), null],
 				[PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + optimFunctions + ')\\b'), null],
 			
-				// valid variable names (start with letter, and contains letters, digits, and underscores).
-				// HACK: if it is followed by transpose, match except last character which will be matched
-				// on the next iteration (along with the ') as PR_PLAIN by the "dont misdetect" pattern
-				[PR.PR_PLAIN, /^[a-zA-Z][a-zA-Z0-9_]*(?!')/, null],
-			
-				// floating point numbers: 1, 1.0, 1i, -1.1E-1
-				[PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null]
-			
-				// parentheses, braces, brackets
-				//[PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],	// "{}()[]"
-			
-				// other operators
-				//[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
+				// plain identifier (user-defined variable/function name)
+				[PR_IDENTIFIER, /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*/, null],
 			];
 			
+			var operatorsPatterns = [
+				// forward to identifiers to match
+				["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
+			
+				// parentheses, braces, brackets
+				[PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],	// "{}()[]"
+			
+				// other operators
+				[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
+			
+				// transpose operators
+				[PR_TRANSPOSE, /^'/, null],
+			];
+			
+			PR.registerLangHandler(
+				PR.createSimpleLexer([], identifiersPatterns),
+				["matlab-identifiers"]
+			);
+			PR.registerLangHandler(
+				PR.createSimpleLexer([], operatorsPatterns),
+				["matlab-operators"]
+			);
 			PR.registerLangHandler(
 				PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
 				["matlab"]

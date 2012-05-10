@@ -15,8 +15,10 @@
 	.lang-matlab .pun { color: #000000; }
 	/* special variables/constants: darkblue */
 	.lang-matlab .const { color: #00008B; }
-	/* functions: #2B91AF; #004444; #444400; #440044; */
+	/* core functions: #2B91AF; #004444; #444400; #440044; */
 	.lang-matlab .fun { color: #2B91AF; }
+	/* toolbox functions: #2B91AF; #004444; #444400; #440044; */
+	.lang-matlab .fun_tbx { color: #2B91AF; }
 	/* system commands */
 	.lang-matlab .syscmd { color: #B28C00; }
 	/* code output */

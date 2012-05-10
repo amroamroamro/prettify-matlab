@@ -28,5 +28,5 @@
  *     </pre>
  */
 (function (PR) {
-	//=INSERT_FILE= ./_main.js
+	//=RENDER_FILE= ./_main.js
 })(window.PR);

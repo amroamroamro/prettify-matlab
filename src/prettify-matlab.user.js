@@ -37,7 +37,7 @@
 	
 	// insert our custom CSS styles
 	style_inject([
-		//=INSERT_FILE_AS_STRINGS= ../css/lang-matlab.css
+		//=INSERT_FILE_QUOTED= ../css/lang-matlab.css
 	].join(""));
 
 	script_inject(function () {
@@ -90,7 +90,7 @@
 		}
 		
 		function RegisterMATLABLanguageHandlers() {
-			//=INSERT_FILE= ./_main.js
+			//=RENDER_FILE= ./_main.js
 		}
 	});
 })();

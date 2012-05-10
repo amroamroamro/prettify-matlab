@@ -37,7 +37,7 @@
 
 	// insert our custom CSS styles
 	style_inject([
-		//=INSERT_FILE_AS_STRINGS= ../css/switch_lang.css
+		//=INSERT_FILE_QUOTED= ../css/switch_lang.css
 	].join(""));
 
 	script_inject(function () {

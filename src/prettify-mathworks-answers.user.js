@@ -45,7 +45,7 @@
 	// insert our custom CSS styles
 	style_inject_byURL('http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css');
 	style_inject([
-		//=INSERT_FILE_AS_STRINGS= ../css/lang-matlab.css
+		//=INSERT_FILE_QUOTED= ../css/lang-matlab.css
 		'/* use horizontal scrollbars instead of wrapping long lines */',
 		'pre.prettyprint { white-space: pre; overflow: auto; }',
 		'/* add borders around code, give it a background color, and make it slightly indented */',
@@ -84,7 +84,7 @@
 		});
 
 		function RegisterMATLABLanguageHandlers() {
-			//=INSERT_FILE= ./_main.js
+			//=RENDER_FILE= ./_main.js
 		}
 	});
 })();

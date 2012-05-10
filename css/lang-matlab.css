@@ -21,6 +21,10 @@
 	.lang-matlab .syscmd { color: #B28C00; }
 	/* code output */
 	.lang-matlab .codeoutput { color: #666666; }
+	/* error messages */
+	.lang-matlab .err { color: #E60000; }
+	/* warning messages */
+	.lang-matlab .wrn { color: #FF6400; }
 	/* line continuation */
 	.lang-matlab .linecont { color: #0000FF; }
 	/* unterminated strings */

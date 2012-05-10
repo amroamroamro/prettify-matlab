@@ -60,6 +60,10 @@
 		'	.lang-matlab .syscmd { color: #B28C00; }',
 		'	/* code output */',
 		'	.lang-matlab .codeoutput { color: #666666; }',
+		'	/* error messages */',
+		'	.lang-matlab .err { color: #E60000; }',
+		'	/* warning messages */',
+		'	.lang-matlab .wrn { color: #FF6400; }',
 		'	/* line continuation */',
 		'	.lang-matlab .linecont { color: #0000FF; }',
 		'	/* unterminated strings */',
@@ -135,6 +139,8 @@
 				PR_FUNCTION = "fun",
 				PR_SYSCMD = "syscmd",
 				PR_CODE_OUTPUT = "codeoutput",
+				PR_ERROR = "err",
+				PR_WARNING = "wrn",
 				PR_LINE_CONTINUATION = "linecont";
 			
 			// Refer to: http://www.mathworks.com/help/techdoc/ref/f16-6011.html
@@ -162,6 +168,12 @@
 			var fallthroughStylePatterns = [
 				// line continuation
 				[PR_LINE_CONTINUATION, /^\.\.\.\s*[\r\n]/, null],
+			
+				// error message
+				[PR_ERROR, /^\?\?\? [^\r\n]*/, null],
+			
+				// warning message
+				[PR_WARNING, /^Warning: [^\r\n]*/, null],
 			
 				// command prompt/output
 				//[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],		// full command output (both loose/compact format): `>> EXP\nVAR =\n VAL`

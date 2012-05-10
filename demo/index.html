@@ -278,6 +278,38 @@ end
 </code>
 </pre>
 
+<pre class="prettyprint lang-matlab">
+<code>
+% MATLAB R2011a
+>> dontexist(1)
+??? Undefined function or method 'dontexist' for input arguments of type 'double'.
+
+>> diag(1,1,1)
+??? Error using ==> diag
+Too many input arguments.
+ 
+>> error('a:a','a')
+??? a
+ 
+>> warning('a:a','a')
+Warning: a 
+
+% MATLAB R2011b
+>> dontexist(1)
+Undefined function 'dontexist' for input arguments of type 'double'.
+
+>> diag(1,1,1)
+Error using diag
+Too many input arguments.
+
+>> error('a:a','a')
+a
+ 
+>> warning('a:a','a')
+Warning: a 
+</code>
+</pre>
+
 <pre class="prettyprint lang-c">
 <code>
 #include "stdio.h"

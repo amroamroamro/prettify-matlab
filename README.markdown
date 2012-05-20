@@ -16,7 +16,8 @@ Currently the code recognizes the following constructs:
  - command prompt/command output (`>> now`)
  - MATLAB language keywords (`if`, `else`, `end`, etc...)
  - some special variables and constants (`inf`, `nan`, `varargin`, etc..)
- - over 600 of the most commly used builtin functions (`cos`, `plot`, etc...)
+ - over 1300 builtin functions from core MATLAB (`cos`, `plot`, etc...)
+ - additional functions from popular toolboxes ([Statistics][6], [IPT][7], and [Optimization][8])
 
 See the wiki for sample screenshots.
 
@@ -83,7 +84,9 @@ Check the `demo/index.html` file for a demonstration.
 [3]: http://stackapps.com/tags/script/info
 [4]: http://stackoverflow.com/questions/tagged/matlab
 [5]: http://www.mathworks.com/matlabcentral/answers/
-
+[6]: http://www.mathworks.com/products/statistics/
+[7]: http://www.mathworks.com/products/image/
+[8]: http://www.mathworks.com/products/optimization/
 
 LICENSE
 -------

@@ -14,10 +14,14 @@ Currently the code recognizes the following constructs:
  - line continuation characters (`...`)
  - transpose operator (single quote) vs. strings
  - command prompt/command output (`>> now`)
+ - error/warning messages (`??? Error in ...` and `Warning: ...`)
+ - parentheses, brackets, braces (`()`, `[]`, `{}`)
+ - other operators (`<>=~@&;,:!-+*^.|\/`)
  - MATLAB language keywords (`if`, `else`, `end`, etc...)
  - some special variables and constants (`inf`, `nan`, `varargin`, etc..)
  - over 1300 builtin functions from core MATLAB (`cos`, `plot`, etc...)
  - additional functions from popular toolboxes ([Statistics][6], [IPT][7], and [Optimization][8])
+ - user-defined indentifiers (function and variable names not matched in previous steps)
 
 See the wiki for sample screenshots.
 

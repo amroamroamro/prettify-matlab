@@ -4,7 +4,7 @@
 task :default => 'SO:build'
 
 # source files to be processed
-SOURCES = %w[lang-matlab.js prettify-matlab.user.js switch-lang.user.js prettify-mathworks-answers.user.js]
+SOURCES = %w[lang-matlab.js prettify-matlab.user.js switch-lang.user.js prettify-mathworks-answers.user.js prettify-mathworks-fileexchange.user.js]
 
 namespace :SO do
 	desc 'Builds both userscript and prettify extension JS files from templates'

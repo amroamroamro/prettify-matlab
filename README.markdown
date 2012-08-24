@@ -50,12 +50,13 @@ code block, with an attached drop-down menu to allow language selection.
 To add this functionality, install the `js/switch-lang.user.js` userscript.
 
 
-MATLAB Answers
---------------
+MATLAB Answers / File Exchange
+------------------------------
 
-Similarly, you can apply the syntax hightighting on [MATLAB Answers][5] website
-from MathWorks. Simply install the `js/prettify-mathworks-answers.user.js`
-userscript.
+Similarly, you can apply the syntax hightighting on both [MATLAB Answers][5] 
+and [File Exchange][9] websites from MathWorks. Simply install the userscripts
+`js/prettify-mathworks-answers.user.js` or `js/prettify-mathworks-fileexchange.user.js`
+respectively.
 
 
 google-code-prettify extension
@@ -91,11 +92,12 @@ Check the `demo/index.html` file for a demonstration.
 [6]: http://www.mathworks.com/products/statistics/
 [7]: http://www.mathworks.com/products/image/
 [8]: http://www.mathworks.com/products/optimization/
+[9]: http://www.mathworks.com/matlabcentral/fileexchange/
 
 LICENSE
 -------
 
-Copyright (c) 2012 by Amro <amroamroamro@gmail.com>
+Copyright (c) 2012 by Amro &lt;amroamroamro@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

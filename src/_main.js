@@ -96,7 +96,7 @@ var fallthroughStylePatterns = [
 	[PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],	// "{}()[]"
 
 	// other operators
-	[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
+	[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null]
 ];
 
 var identifiersPatterns = [
@@ -116,7 +116,7 @@ var identifiersPatterns = [
 	[PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + optimFunctions + ')\\b'), null],
 
 	// plain identifier (user-defined variable/function name)
-	[PR_IDENTIFIER, /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*/, null],
+	[PR_IDENTIFIER, /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*/, null]
 ];
 
 var operatorsPatterns = [
@@ -130,7 +130,7 @@ var operatorsPatterns = [
 	[PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
 
 	// transpose operators
-	[PR_TRANSPOSE, /^'/, null],
+	[PR_TRANSPOSE, /^'/, null]
 ];
 
 PR.registerLangHandler(

@@ -82,7 +82,7 @@ def process_file(source, target)
 
 				# write concatenated line
 				target << indentation			# keep same level of indentation
-				target << (doQuote ? quote_string(insert_line) : insert_line)
+				target << (doQuote ? quote_string(insert_line,false) : insert_line)
 				target << "\n"					# insert new line at the end (was chopped by rstrip)
 
 			# write file lines one-by-one
@@ -108,8 +108,9 @@ def process_file(source, target)
 end
 
 # returns: 'str',
-def quote_string(str)
-	ret = "'" + str.gsub(/(\r\n?)$/,'') + "',"
+def quote_string(str, doTrailComma=true)
+	ret = "'" + str.gsub(/(\r\n?)$/,'') + "'"
+	ret += "," if doTrailComma
 	ret += $1 if not $1.nil?
 	ret
 end

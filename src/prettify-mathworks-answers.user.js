@@ -78,6 +78,24 @@
 					}
 				}
 
+				// merge consecutive PRE blocks into one
+				$('pre').filter(function(){
+					// find first PRE from each group of PRE elements:
+					// check if its followed by PRE (but not itself being preceded by one)
+					return ( $(this).next().is('pre')) && !($(this).prev().is('pre') );
+				}).each(function() {
+					// get all following PRE elements
+					var el = $(this).nextUntil(function(){
+						return !($(this).is('pre'));	// until something not PRE
+					});
+					// get their html content, merge as one, and append it to first PRE
+					$(this).append( "\n" + el.map(function(){
+						return $(this).html();
+					}).get().join("\n") );
+					// remove those PRE elements
+					el.remove();
+				});
+
 				// apply highlighting
 				prettyPrint();
 			});

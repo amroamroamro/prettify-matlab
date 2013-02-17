@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name           StackOverflow: switch language of syntax highlighting
-// @namespace      StackExchange_GoogleCodePrettify_SwitchLanguage
-// @description    Allows switching the language of syntax highlighting on StackOverflow
+// @namespace      https://github.com/amroamroamro
+// @description    Enable switching the language of syntax highlighting on StackOverflow
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.0
+// @homepage       https://github.com/amroamroamro/prettify-matlab
+// @version        1.2
 // @license        MIT License
 // @icon           http://cdn.sstatic.net/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
+// @grant          none
 // ==/UserScript==
 
 (function () {

@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name           StackOverflow: MATLAB highlighter
-// @namespace      StackExchange_GoogleCodePrettify_MATLAB
-// @description    Adds simple MATLAB syntax highlighting on StackOverflow
+// @name           StackOverflow: MATLAB syntax highlighter
+// @namespace      https://github.com/amroamroamro
+// @description    Enable MATLAB syntax highlighting on StackOverflow
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.1
+// @homepage       https://github.com/amroamroamro/prettify-matlab
+// @version        1.2
 // @license        MIT License
 // @icon           http://cdn.sstatic.net/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*

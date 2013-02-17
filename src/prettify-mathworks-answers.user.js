@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name           Mathworks Answers: MATLAB highlighter
-// @namespace      MathworksAnswers_GoogleCodePrettify_MATLAB
-// @description    Adds simple MATLAB syntax highlighting on Mathworks Answers
+// @name           Mathworks Answers: MATLAB syntax highlighter
+// @namespace      https://github.com/amroamroamro
+// @description    Enable MATLAB syntax highlighting on Mathworks Answers
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.1
+// @homepage       https://github.com/amroamroamro/prettify-matlab
+// @version        1.2
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.tld/matlabcentral/answers/*

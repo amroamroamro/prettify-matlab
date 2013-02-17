@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name           Mathworks FileExchange: MATLAB highlighter
-// @namespace      MathworksFileExchange_GoogleCodePrettify_MATLAB
-// @description    Adds simple MATLAB syntax highlighting on Mathworks FileExchange
+// @name           Mathworks FileExchange: MATLAB syntax highlighter
+// @namespace      https://github.com/amroamroamro
+// @description    Enable MATLAB syntax highlighting on Mathworks FileExchange
 // @author         Amro <amroamroamro@gmail.com>
-// @version        1.1
+// @homepage       https://github.com/amroamroamro/prettify-matlab
+// @version        1.2
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.tld/matlabcentral/fileexchange/*

@@ -8,6 +8,7 @@
 // @icon           http://cdn.sstatic.net/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
+// @grant          none
 // ==/UserScript==
 
 (function () {

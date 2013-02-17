@@ -8,6 +8,7 @@
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.tld/matlabcentral/fileexchange/*
 // @run-at         document-end
+// @grant          none
 // ==/UserScript==
 
 (function () {

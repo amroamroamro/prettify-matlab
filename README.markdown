@@ -1,11 +1,13 @@
-MATLAB syntax highlighting for google code prettify
+MATLAB syntax highlighting for Google Code prettify
 ===================================================
 
 This script provides MATLAB syntax highlighting for the
 [google-code-prettify][1] project. Intended to be used on [Stack Overflow][2]
 and other Stack Exchange sites.
 
-Currently the code recognizes the following constructs:
+The project was inspired by the similar [Mathematica.SE][10] syntax highlighter.
+
+Currently the following constructs are recognized:
 
  - single line as well as block comments (`% this is a comment`)
  - quoted string (`'hello world'`)
@@ -29,7 +31,7 @@ See the wiki for sample screenshots.
 BUILDING
 --------
 
-If the files don't already exist, run `rake SO:build` to create the output
+You can rebuild the project by running `rake SO:build`. This will create the output
 javascript files in the `js` directory using the templates sources from `src`.
 (This step requires Rake, a Make-like build tool for Ruby, used here to provide
 basic template processing).
@@ -39,24 +41,24 @@ Stack Overflow
 --------------
 
 To obtain MATLAB syntax highlighting on Stack Overflow, install the
-`js/prettify-matlab.user.js` userscript with your preferred browser (see [this
-page][3] for some instructions).
+[userscript](js/prettify-matlab.user.js) with your preferred browser
+(see [this page][3] for some instructions).
 
 The script is only activated on questions tagged [`matlab`][4].
 
-In addition, a separate userscript is included to allow switching the language
-used by the prettifier. It adds a small button to the top-right corner of each
-code block, with an attached drop-down menu to allow language selection.
-To add this functionality, install the `js/switch-lang.user.js` userscript.
+In addition, a separate [userscript](js/switch-lang.user.js) is included to
+allow switching the language used by the prettifier. It adds a small button
+to the top-right corner of each code block, with an attached drop-down menu
+to allow language selection.
 
 
-MATLAB Answers / File Exchange
-------------------------------
+MathWorks (MATLAB Answers / File Exchange)
+------------------------------------------
 
-Similarly, you can apply the syntax hightighting on both [MATLAB Answers][5] 
-and [File Exchange][9] websites from MathWorks. Simply install the userscripts
-`js/prettify-mathworks-answers.user.js` or `js/prettify-mathworks-fileexchange.user.js`
-respectively.
+Similarly, you can apply the syntax hightighting on both [MATLAB Answers][5]
+and [File Exchange][9] websites from MathWorks. Simply install the corresponding
+userscript for [Answers](js/prettify-mathworks-answers.user.js) or
+[File Exchange](js/prettify-mathworks-fileexchange.user.js) websittes.
 
 
 google-code-prettify extension
@@ -65,7 +67,7 @@ google-code-prettify extension
 To apply the MALTAB syntax highlighting on code snippets in your own web pages,
 first include the prettify scripts and stylesheets in your document (as explained
 in the [prettify][1] project documentation). To use the MATLAB language extension,
-include the `js/lang-matlab.js` script, and place your source code inside a
+include the [MATLAB](js/lang-matlab.js) script, and place your source code inside a
 preformatted HTML tag as follows:
 
     <pre class="prettyprint lang-matlab">
@@ -76,12 +78,12 @@ preformatted HTML tag as follows:
         </code>
     </pre>
 
-Upon calling `prettyPrint()`, this will automatically be pretty printed, and the
+Upon calling `prettyPrint()`, marked sections will be pretty-printed, and the
 default styles will be applied. You can customize them with your own, or use the
-provided CSS file in `css/lang-matlab.css` which resembles the color scheme of
+provided [CSS file](css/lang-matlab.css) which resembles the color scheme of
 the MATLAB IDE (with some additions of my own).
 
-Check the `demo/index.html` file for a demonstration.
+Check the [demo](demo/index.html) page for a demonstration.
 
 
 [1]: http://code.google.com/p/google-code-prettify/
@@ -93,11 +95,12 @@ Check the `demo/index.html` file for a demonstration.
 [7]: http://www.mathworks.com/products/image/
 [8]: http://www.mathworks.com/products/optimization/
 [9]: http://www.mathworks.com/matlabcentral/fileexchange/
+[10]: https://github.com/halirutan/Mathematica-Source-Highlighting
 
-LICENSE
--------
+MIT LICENSE
+-----------
 
-Copyright (c) 2012 by Amro &lt;amroamroamro@gmail.com&gt;
+Copyright (c) 2013 by Amro &lt;amroamroamro@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

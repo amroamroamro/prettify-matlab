@@ -34,7 +34,7 @@
 	if ( !/^\/questions\/(\d+|ask)/.test(window.location.pathname) ) {
 		return;
 	}
-	
+
 	// insert our custom CSS styles
 	style_inject([
 		//=INSERT_FILE_QUOTED= ../css/lang-matlab.css
@@ -71,7 +71,7 @@
 						// remove existing formatting inside <code> tag, by setting content to plain text again
 						// This was necessary on Stack Overflow to avoid "double-styling"!
 						unprettify(blocks[i].children[0]);
-						
+
 						// set the language to MATLAB
 						blocks[i].className = 'prettyprint lang-matlab';
 					}
@@ -88,7 +88,7 @@
 			var decodedStr = $("<div/>").html(encodedStr).text();	// decode html entities
 			code.text(decodedStr);		// text() replaces special characters like `<` with `&lt;`
 		}
-		
+
 		function RegisterMATLABLanguageHandlers() {
 			//=RENDER_FILE= ./_main.js
 		}

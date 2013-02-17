@@ -62,7 +62,7 @@
 			cache: true,	// use $.ajax instead of $.getScript to set cache=true (allows broswer to cache the script)
 			async: true,
 			dataType: 'script',
-			url: 'http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js',
+			url: 'http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js'
 		}).done(function () {
 			// register the new language handlers
 			RegisterMATLABLanguageHandlers();

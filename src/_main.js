@@ -23,7 +23,7 @@ var PR_IDENTIFIER = "ident",
 	PR_TRANSPOSE = "transpose",
 	PR_LINE_CONTINUATION = "linecont";
 
-// Refer to: http://www.mathworks.com/help/techdoc/ref/f16-6011.html
+// Refer to: http://www.mathworks.com/help/matlab/functionlist-alpha.html
 var coreFunctions = [
 	//=INSERT_FILE_QUOTED_CONCATED= ./functions/core.txt
 ].join("|");

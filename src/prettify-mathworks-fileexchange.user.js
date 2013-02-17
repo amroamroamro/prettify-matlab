@@ -6,7 +6,7 @@
 // @version        1.1
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
-// @include        http://www.mathworks.com/matlabcentral/fileexchange/*
+// @include        http://www.mathworks.tld/matlabcentral/fileexchange/*
 // @run-at         document-end
 // ==/UserScript==
 

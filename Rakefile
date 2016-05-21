@@ -4,18 +4,22 @@
 task :default => 'SO:build'
 
 # source files to be processed
-SOURCES = %w[lang-matlab.js prettify-matlab.user.js switch-lang.user.js prettify-mathworks-answers.user.js prettify-mathworks-fileexchange.user.js]
+SOURCES = %w[
+    lang-matlab.js
+    prettify-matlab.user.js
+    prettify-mathworks-answers.user.js
+    prettify-mathworks-fileexchange.user.js
+    switch-lang.user.js
+]
 
 namespace :SO do
-    desc 'Builds both userscript and prettify extension JS files from templates'
+    desc 'Builds code-prettify extension and userscripts'
     task :build do
         for name in SOURCES
-            source = File.open("src/#{name}", 'r')
-            target = File.open("js/#{name}", 'w')
-
-            puts "Building #{target.path}"
-
+            source = File.open("src/#{name}", 'rb')
+            target = File.open("js/#{name}", 'wb')
             begin
+                puts "Building #{target.path}"
                 process_file(source, target)
             ensure
                 source.close
@@ -40,7 +44,7 @@ end
 
 require 'tempfile'
 
-# process file by parsing //=INSERT_FILE*= instructions recursively
+# process file by parsing simple templating instructions recursively
 # Adapted from: https://github.com/mislav/user-scripts/blob/master/Thorfile
 def process_file(source, target)
     # read source line-by-line.
@@ -48,11 +52,13 @@ def process_file(source, target)
         case line
         # match instructions: INSERT/RENDER, QUOTED, CONCATED
         when %r{^(\s*)//=(INSERT|RENDER)_FILE(_QUOTED)?(_CONCATED)?=\s+(.*)$}
-            # get indentation, process mode, quoted lines, concatenated lines, and name of file to insert
-            indentation, processMode, doQuote, doConcat, filename = $1, $2, $3, $4, $5
+            # get indentation, process mode, quoted lines, concatenated lines,
+            # and name of file to insert
+            indentation, processMode, doQuote, doConcat, filename =
+                $1, $2, $3, $4, $5
 
-            # check file exists
-            filename = File.join(File.dirname(source.path), filename.strip)     # path relative to source
+            # check file exists (filename is relative to source)
+            filename = File.join(File.dirname(source.path), filename.strip)
             filename = File.expand_path(filename)
             if not File.exist?(filename)
                 # warn user and pass line unchanged
@@ -63,11 +69,13 @@ def process_file(source, target)
 
             # INSERT vs. RENDER
             if processMode == 'RENDER'
-                template = File.open(filename, 'r')
-                tmp = Tempfile.new(File.basename(filename)) # create temp file to write to
+                # render it into a temp file
+                template = File.open(filename, 'rb')
+                tmp = Tempfile.new(File.basename(filename))
+                tmp.binmode  # force binary mode to disable newline conversion
                 begin
                     process_file(template, tmp)
-                    # for the following, use the processed file instead of the raw one
+                    # switch to using the processed file
                     filename = tmp.path
                 ensure
                     template.close
@@ -81,15 +89,16 @@ def process_file(source, target)
                 insert_line = File.readlines(filename).map(&:rstrip).join('|')
 
                 # write concatenated line
-                target << indentation           # keep same level of indentation
+                target << indentation  # keep same level of indentation
                 target << (doQuote ? quote_string(insert_line,false) : insert_line)
-                target << "\n"                  # insert new line at the end (was chopped by rstrip)
+                target << "\n"         # reinsert new line at the end
 
             # write file lines one-by-one
             else
-                file = File.open(filename, 'r')
+                file = File.open(filename, 'rb')
                 for insert_line in file
-                    target << indentation       # keep same level of indentation
+                    target << indentation if doQuote or
+                        not insert_line.to_s.strip.empty?
                     target << (doQuote ? quote_string(insert_line) : insert_line)
                 end
                 file.close
@@ -109,7 +118,7 @@ end
 
 # returns: 'str',
 def quote_string(str, doTrailComma=true)
-    ret = "'" + str.gsub(/(\r\n?)$/,'') + "'"
+    ret = "'" + str.gsub(/(\n)$/,'') + "'"
     ret += "," if doTrailComma
     ret += $1 if not $1.nil?
     ret

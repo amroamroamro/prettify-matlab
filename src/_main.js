@@ -1,45 +1,49 @@
+// token names (correspond to CSS classes). We fallback to regular tokens
+// for stylesheets that don't style the custom tokens.
 /*
-    PR_PLAIN: plain text
-    PR_STRING: string literals
-    PR_KEYWORD: keywords
-    PR_COMMENT: comments
-    PR_TYPE: types
-    PR_LITERAL: literal values (1, null, true, ..)
-    PR_PUNCTUATION: punctuation string
-    PR_SOURCE: embedded source
-    PR_DECLARATION: markup declaration such as a DOCTYPE
-    PR_TAG: sgml tag
-    PR_ATTRIB_NAME: sgml attribute name
-    PR_ATTRIB_VALUE: sgml attribute value
+PR.PR_PLAIN = 'pln';        // whitespace
+PR.PR_STRING = 'str';       // strings
+PR.PR_KEYWORD = 'kwd';      // reserved keywords
+PR.PR_COMMENT = 'com';      // comments
+PR.PR_TYPE = 'typ';         // data types
+PR.PR_LITERAL = 'lit';      // literal numeric values
+PR.PR_PUNCTUATION = 'pun';  // punctuation and operators
+PR.PR_TAG = 'tag';
+PR.PR_ATTRIB_NAME = 'atn';
+PR.PR_ATTRIB_VALUE = 'atv';
+PR.PR_DECLARATION = 'dec';
 */
-var PR_IDENTIFIER = "ident",
-    PR_CONSTANT = "const",
-    PR_FUNCTION = "fun",
-    PR_FUNCTION_TOOLBOX = "fun_tbx",
-    PR_SYSCMD = "syscmd",
-    PR_CODE_OUTPUT = "codeoutput",
-    PR_ERROR = "err",
-    PR_WARNING = "wrn",
-    PR_TRANSPOSE = "transpose",
-    PR_LINE_CONTINUATION = "linecont";
+var PR_IDENTIFIER = 'idnt pln',        // user-defined variable/function identifiers
+    PR_VARIABLE = 'var pln',           // special variables/constants
+    PR_FUNCTION = 'fun pln',           // core/toolbox functions
+    PR_SYSCMD = 'scmd dec',            // system commands
+    PR_PROMPT = 'prmpt pln',           // command prompt
+    PR_ERROR = 'err pln',              // error messages
+    PR_WARNING = 'wrn pln',            // warning messages
+    PR_PARENS = 'prn pun',             // parentheses, braces, brackets
+    PR_TRANSPOSE = 'tps pun',          // transpose operator
+    PR_LINE_CONTINUATION = 'lcnt pun'; // line continuation
 
+// List of functions (extracted from MATLAB R2012a)
 // Refer to: http://www.mathworks.com/help/matlab/functionlist-alpha.html
 var coreFunctions = [
     //=INSERT_FILE_QUOTED_CONCATED= ./functions/core.txt
-].join("|");
+].join('|');
 var statsFunctions = [
     //=INSERT_FILE_QUOTED_CONCATED= ./functions/stats.txt
-].join("|");
+].join('|');
 var imageFunctions = [
     //=INSERT_FILE_QUOTED_CONCATED= ./functions/image.txt
-].join("|");
+].join('|');
 var optimFunctions = [
     //=INSERT_FILE_QUOTED_CONCATED= ./functions/optim.txt
-].join("|");
+].join('|');
 
-// identifiers: variable/function name, or a chain of variable names joined by dots (obj.method, struct.field1.field2, etc..)
-// valid variable names (start with letter, and contains letters, digits, and underscores).
-// we match "xx.yy" as a whole so that if "xx" is plain and "yy" is not, we dont get a false positive for "yy"
+// identifiers: variable/function name, or a chain of variable names joined
+// by dots (obj.method, struct.field1.field2, etc..). Valid variable names
+// (start with letter, and contains letters, digits, and underscores).
+// We match "xx.yy" as a whole so that if "xx" is plain and "yy" is not, we
+// dont get a false positive for "yy".
 //var reIdent = '(?:[a-zA-Z][a-zA-Z0-9_]*)';
 //var reIdentChain = '(?:' + reIdent + '(?:\.' + reIdent + ')*' + ')';
 
@@ -64,6 +68,7 @@ var shortcutStylePatterns = [
 // patterns that will be tried in order if the shortcut ones fail. May have shortcuts.
 var fallthroughStylePatterns = [
     // line continuation
+    //[PR_LINE_CONTINUATION, /^\.\.\.[^\r\n]*/, null],
     [PR_LINE_CONTINUATION, /^\.\.\.\s*[\r\n]/, null],
 
     // error message
@@ -73,27 +78,30 @@ var fallthroughStylePatterns = [
     [PR_WARNING, /^Warning: [^\r\n]*/, null],
 
     // command prompt/output
-    //[PR_CODE_OUTPUT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],     // full command output (both loose/compact format): `>> EXP\nVAR =\n VAL`
-    [PR_CODE_OUTPUT, /^>>\s+/, null],           // only the command prompt `>> `
-    [PR_CODE_OUTPUT, /^octave:\d+>\s+/, null],  // Octave command prompt `octave:1> `
+    [PR_PROMPT, /^>>\s+/, null],  // only the command prompt `>> `
+    // full command output (both loose/compact format): `>> EXP\nVAR =\n VAL`
+    //[PR_PROMPT, /^>>\s+[^\r\n]*[\r\n]{1,2}[^=]*=[^\r\n]*[\r\n]{1,2}[^\r\n]*/, null],
 
-    // identifier (chain) or closing-parenthesis/brace/bracket, and IS followed by transpose operator
-    // this way we dont misdetect the transpose operator ' as the start of a string
+    // identifier (chain) or closing-parenthesis/brace/bracket,
+    // and IS followed by transpose operator. This way we dont misdetect the
+    // transpose operator ' as the start of a string
     ["lang-matlab-operators", /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
 
-    // identifier (chain), and NOT followed by transpose operator
-    // this must come AFTER the "is followed by transpose" step (otherwise it chops the last char of identifier)
+    // identifier (chain), and NOT followed by transpose operator.
+    // This must come AFTER the "is followed by transpose" step
+    // (otherwise it chops the last char of identifier)
     ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
 
     // single-quoted strings: allow for escaping with '', no multilines
-    //[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null], // string vs. transpose (check before/after context using negative/positive lookbehind/lookahead)
-    [PR.PR_STRING, /^'(?:[^']|'')*'/, null],    // "'"
+    [PR.PR_STRING, /^'(?:[^']|'')*'/, null],
+    // string vs. transpose (check before/after context using negative/positive lookbehind/lookahead)
+    //[PR.PR_STRING, /(?:(?<=(?:\(|\[|\{|\s|=|;|,|:))|^)'(?:[^']|'')*'(?=(?:\)|\]|\}|\s|=|;|,|:|~|<|>|&|-|\+|\*|\.|\^|\|))/, null],
 
     // floating point numbers: 1, 1.0, 1i, -1.1E-1
     [PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null],
 
     // parentheses, braces, brackets
-    [PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],    // "{}()[]"
+    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
 
     // other operators
     [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null]
@@ -104,16 +112,17 @@ var identifiersPatterns = [
     [PR.PR_KEYWORD, /^\b(?:break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while)\b/, null],
 
     // some specials variables/constants
-    [PR_CONSTANT, /^\b(?:true|false|inf|Inf|nan|NaN|eps|pi|ans|nargin|nargout|varargin|varargout)\b/, null],
+    //TODO: i, j
+    [PR_VARIABLE, /^\b(?:true|false|inf|Inf|nan|NaN|eps|pi|ans|nargin|nargout|varargin|varargout)\b/, null],
 
     // some data types
     [PR.PR_TYPE, /^\b(?:cell|struct|char|double|single|logical|u?int(?:8|16|32|64)|sparse)\b/, null],
 
     // commonly used builtin functions from core MATLAB and a few popular toolboxes
     [PR_FUNCTION, new RegExp('^\\b(?:' + coreFunctions + ')\\b'), null],
-    [PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + statsFunctions + ')\\b'), null],
-    [PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + imageFunctions + ')\\b'), null],
-    [PR_FUNCTION_TOOLBOX, new RegExp('^\\b(?:' + optimFunctions + ')\\b'), null],
+    [PR_FUNCTION, new RegExp('^\\b(?:' + statsFunctions + ')\\b'), null],
+    [PR_FUNCTION, new RegExp('^\\b(?:' + imageFunctions + ')\\b'), null],
+    [PR_FUNCTION, new RegExp('^\\b(?:' + optimFunctions + ')\\b'), null],
 
     // plain identifier (user-defined variable/function name)
     [PR_IDENTIFIER, /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*/, null]
@@ -124,7 +133,7 @@ var operatorsPatterns = [
     ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
 
     // parentheses, braces, brackets
-    [PR.PR_TAG, /^(?:\{|\}|\(|\)|\[|\])/, null],    // "{}()[]"
+    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
 
     // other operators
     [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],

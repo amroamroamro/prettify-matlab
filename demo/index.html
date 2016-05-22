@@ -1,47 +1,77 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>test MATLAB prettify.js</title>
+<meta charset="utf-8">
+<title>test MATLAB prettify.js</title>
+<link type="text/css" rel="stylesheet" href="css/prettify.css" />
+<link type="text/css" rel="stylesheet" href="../css/lang-matlab.css" />
+<!--<link type="text/css" rel="stylesheet" href="../css/switch_lang.css" />-->
+<style type="text/css">
+body { width: 80%; }
+pre.prettyprint {
+    background-color: #EEE;
+    color: #000;
+    padding-left: 1em;
+    border: 1px solid #888;
+    width: 50em;
+}
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/prettify.js"></script>
+<script type="text/javascript" src="../js/lang-matlab.js"></script>
+<!--<script type="text/javascript" src="../src/_switch_lang.js"></script>-->
+<script type="text/javascript">
+jQuery(document).ready(function () {
+    // apply syntax highlighting
+    prettyPrint();
 
-    <link type="text/css" rel="stylesheet" href="css/prettify.css" />
-    <link type="text/css" rel="stylesheet" href="../css/lang-matlab.css" />
-    <link type="text/css" rel="stylesheet" href="../css/switch_lang.css" />
-    <style type="text/css">
-    body { width: 80%;}
-    pre.prettyprint {
-        padding-left: 1em;
-        border: 1px solid #888;
-        width: 50em;
-        background-color: #EEEEEE;
-    }
-    </style>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="js/prettify.js"></script>
-    <script type="text/javascript" src="../js/lang-matlab.js"></script>
-    <script type="text/javascript" src="../src/_switch_lang.js"></script>
-    <script type="text/javascript">
-    jQuery(document).ready(function () {
-        // apply syntax highlighting
-        prettyPrint();
-
-        // add language selection menus (after a small delay)
-        setTimeout(function () {
-            add_language_selection_menu();
-        }, 300);
-    });
-    </script>
+    /*
+    // add language selection menus (after a small delay)
+    setTimeout(function () {
+        add_language_selection_menu();
+    }, 300);
+    */
+});
+</script>
 </head>
 
 <body>
 
+<h2>Color Reference</h2>
+<table>
+<tr><td>pln</td><td><code class="pln">Plain text</code></td></tr>
+<tr><td>str</td><td><code class="str">"String content"</code></td></tr>
+<tr><td>kwd</td><td><code class="kwd">Keyword</code></td></tr>
+<tr><td>com</td><td><code class="com">// Comment</code></td></tr>
+<tr><td>typ</td><td><code class="typ">TypeName</code></td></tr>
+<tr><td>lit</td><td><code class="lit">Literals: 42, 3.14</code></td></tr>
+<tr><td>pun</td><td><code class="pun">Punctuation ;,:.</code></td></tr>
+<tr><td>opn</td><td><code class="opn">{open bracket</code></td></tr>
+<tr><td>clo</td><td><code class="clo">close} bracket</code></td></tr>
+<tr><td>tag</td><td><code class="tag">&lt;Markup tag name&gt;</code></td></tr>
+<tr><td>atn</td><td><code class="atn">&lt;Markup attribute-name=""&gt;</code></td></tr>
+<tr><td>atv</td><td><code class="atv">&lt;Markup attribute="value"&gt;</code></td></tr>
+<tr><td>dec</td><td><code class="dec">Declaration</code></td></tr>
+<tr><td>var</td><td><code class="var">Variable name</code></td></tr>
+<tr><td>fun</td><td><code class="fun">Function name</code></td></tr>
+<tr><td>idnt</td><td><code class="idnt">identifier</code></td></tr>
+<tr><td>scmd</td><td><code class="scmd">!system command</code></td></tr>
+<tr><td>prmpt</td><td><code class="prmpt">&gt;&gt; command prompt</code></td></tr>
+<tr><td>err</td><td><code class="err">??? Error message</code></td></tr>
+<tr><td>wrn</td><td><code class="wrn">Warning: message</code></td></tr>
+<tr><td>prn</td><td><code class="prn">([{parentheses}])</code></td></tr>
+<tr><td>tps</td><td><code class="tps">transpose x'</code></td></tr>
+<tr><td>lcnt</td><td><code class="lcnt">line ... continuation</code></td></tr>
+</table>
+
+<hr />
+<h2>MATLAB</h2>
+
+<h3>Data Types</h3>
 <pre class="prettyprint lang-matlab">
 <code>
-%%%%%%%%%%%%%%%%%% DATA TYPES %%%%%%%%%%%%%%%%%%
-
 v = [1,2,3;4,5,6];
-v(v>4) = 0;
+v(v==4) = 0;
 
 s = struct('key',1, 'key2','string');
 s.key = 2;
@@ -54,8 +84,22 @@ single(1)
 uint8(1)
 int8(1)
 
-%%%%%%%%%%%%%%%%%% STRINGS &amp; TRANSPOSE %%%%%%%%%%%%%%%%%%
+A = [B, eye(2), [1 2; 3 4]]
 
+s(4,2).field = 'val'
+val = s(1,2).(fname)
+
+C = {[1.2 3], magic(4), '5'}
+C{1,3}
+
+fhandle = @sin;
+func = @(x,y) x+y;
+</code>
+</pre>
+
+<h3>Strings and Transpose</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 plot(data');
 legend(labels)
 
@@ -74,8 +118,21 @@ disp(x')
 fprintf('%d\n', x(:)')      % with comment
 {1,2}'                      % another comment
 
-%%%%%%%%%%%%%%%%%% LINE CONTINUATION %%%%%%%%%%%%%%%%%%
+chr = 'abcdefghij';
+expr = '(?@disp(sprintf(''starting match: [%s^%s]'',$`,$'')))g';
+regexp(chr, expr, 'once');
 
+str = ['hello' name '!']
+str = ['hello' 'world']
+str = ['hello''world']
+str = ['hello' [] 'world']
+str = ['hello' '' 'world']
+</code>
+</pre>
+
+<h3>Line Continuation</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 [1 20; ...
 30 4]
 
@@ -86,45 +143,160 @@ fprintf('%d\n', x(:)')      % with comment
 'sdasd' ;
 'asdsad'}
 
-%%%%%%%%%%%%%%%%%% SYSTEM COMMANDS %%%%%%%%%%%%%%%%%%
+% valid
+str = sprintf('Some value %s is %d', ...
+    name, val);
+str = ['This is ' ...
+    'allowed'];
 
+% not valid
+str = 'this is not ...
+    allowed';
+
+x = 1 + 2 ...
+    - 3;
+
+x = [1.23...
+4.56];
+</code>
+</pre>
+
+<h3>Line Continuation and Comments</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+x = a + ...  % comment one
+    b - ...  comment two
+    42;      % comment three
+
+plot(x, ... this is a comment
+     y)
+
+plot(x, y, ...
+    'LineStyle','-', ...
+    ... 'LineWidth',2, ...  % this whole line is commented
+    'Marker','o')
+
+plot(x, y, ...
+    'LineStyle','-', ...
+%   'LineWidth',2, ...  % this whole line is commented
+    'Marker','o')
+
+</code>
+</pre>
+
+<h3>Shell Escape</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 !touch file.txt
+</code>
+</pre>
 
-%%%%%%%%%%%%%%%%%% COMMAND OUTPUT %%%%%%%%%%%%%%%%%%
-
->> 1+1
+<h3>Command Prompt and Code Output</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+% compact
+&gt;&gt; 1+1
 ans =
      2
 
->> 1+1
+% loose
+&gt;&gt; 1+1
 
 ans =
 
      2
+</code>
+</pre>
 
-%%%%%%%%%%%%%%%%%% KEYWORDS %%%%%%%%%%%%%%%%%%
+<h3>Functions</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+NET.addAssembly
+NET.addAssembly('')
 
+a = struct();
+a.disp = [1,1,1];
+a.disp(1)
+a.disp'
+(a.disp)'
+disp(a)
+</code>
+</pre>
+
+<h3>Keywords</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 function ret = fcn(in)
     ret = sum(in.^2);
 end
 
-classdef CC &lt; handle
-    properties (SetAccess = public)
+function [varargout] = func(varargin)
+    disp(varargin')
+end
+
+classdef MyClass &lt; handle
+    properties (SetAccess = private)
         x = 0;
     end
     methods
-        function this = CC(varargin)
+        function this = MyClass(varargin)
             this.x = 9;
         end
     end
 end
 
-x = [];
-parfor i=1:10
-    x[i] = i;
+classdef Bool &lt; logical
+   enumeration
+      No  (0)
+      Yes (1)
+      Off (0)
+      On  (1)
+   end
 end
 
+classdef (ConstructOnLoad) MyEventData &lt; event.EventData
+   properties
+      val = 0;
+   end
+   methods
+      function ev = MyEventData(value)
+         ev.val = value;
+      end
+   end
+end
+
+classdef SimpleEventClass &lt; handle
+   events
+      Overflow
+   end
+   methods
+      function setProp(obj, value)
+         if (value &gt; 10)
+            notify(obj, 'Overflow', MyEventData(10));
+         end
+      end
+   end
+end
+
+for i=1:10, disp(i), end
+
+global x y
+persistent z w
+
+x = [];
+parfor i=1:10
+    x(i) = i;
+end
+
+parpool(2)
+spmd
+  q = magic(labindex + 2);
+end
+delete(gcp)
+
 true ~= false
+inf, nan, eps, pi, i, j
+nargin, nargout, varargin, varargout
 
 if x==1
     true
@@ -151,9 +323,62 @@ switch x
     otherwise
         0
 end
+</code>
+</pre>
 
-%%%%%%%%%%%%%%%%%% NUM LITERALS %%%%%%%%%%%%%%%%%%
+<h3>Tilde</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+[~,idx] = min(x)
+~x
+x~=y
+</code>
+</pre>
 
+<h3>Colon</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+x = 1:10
+x = 1:2:10
+x = A(1:5,:)
+x = A(:)
+x(:) = rand(3,4)
+</code>
+</pre>
+
+<h3>Operators</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+A+B
++A
+A-B
+-A
+A*B
+A.*B
+A^B
+A.^B
+A\B
+A.\B
+A/B
+A./B
+A'
+A.'
+
+A&gt;B
+A&gt;=B
+A&lt;B
+A&lt;=B
+A==B
+A~=B
+A&amp;B
+A|B
+~A
+</code>
+</pre>
+
+<h3>Number Literals</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 1
 1.
 .1
@@ -182,8 +407,12 @@ end
 -1.001i
 +1e-100j
 -.10e-01i
+</code>
+</pre>
 
-% unary vs binary operators
+<h3>Unary vs. Binary Operators</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 1+1
 1+ 1
 1 +1
@@ -192,16 +421,53 @@ end
 +1+ 1
 +1 +1
 +1 + 1
+</code>
+</pre>
 
-%%%%%%%%%%%%%%%%%% COMMENTS %%%%%%%%%%%%%%%%%%
+<h3>Spaces</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+7 -2 +5
+7 - 2 + 5
 
+[7 -2 +5]
+[7 - 2 + 5]
+
+% error
+not_valid = [1 2 zeros...
+(1,3)]
+
+% error
+not_valid = [1 2 zeros (1,3)]
+
+% valid
+zeros(1,3)
+zeros (1,3)
+</code>
+</pre>
+
+<h3>Comments</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 % % comment % %
+x = 1;
    % comment
+x = 2;
 % comment
+x = 3;
 %# comment
+x = 4;
 %% comment
+x = 5;
 %#x = sum(x);
+x = 6;
+x = 7;  % comment
+</code>
+</pre>
 
+<h3>Block Comments</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 %{
 block comment
 %}
@@ -242,7 +508,12 @@ a=10;
 %{
 %a=10;
 %}   x
+</code>
+</pre>
 
+<h3>Nested Block Comments</h3>
+<pre class="prettyprint lang-matlab">
+<code>
 % nested block comments fail
 %{
 dfsdf
@@ -262,54 +533,259 @@ y=20;
 </code>
 </pre>
 
-<pre class="prettyprint lang-matlab">
-<code>
-NET.addAssembly
-NET.addAssembly'
-
-a = struct();
-a.disp = [1,1,1];
-a.disp'
-(a.disp)'
-
-function aaa(varargin)
-    disp(varargin')
-end
-</code>
-</pre>
-
+<h3>Errors and Warnings</h3>
 <pre class="prettyprint lang-matlab">
 <code>
 % MATLAB R2011a
->> dontexist(1)
+&gt;&gt; dontexist(1)
 ??? Undefined function or method 'dontexist' for input arguments of type 'double'.
 
->> diag(1,1,1)
-??? Error using ==> diag
+&gt;&gt; diag(1,1,1)
+??? Error using ==&gt; diag
 Too many input arguments.
 
->> error('a:a','a')
+&gt;&gt; error('a:a','a')
 ??? a
 
->> warning('a:a','a')
+&gt;&gt; warning('a:a','a')
 Warning: a
 
 % MATLAB R2011b
->> dontexist(1)
+&gt;&gt; dontexist(1)
 Undefined function 'dontexist' for input arguments of type 'double'.
 
->> diag(1,1,1)
+&gt;&gt; diag(1,1,1)
 Error using diag
 Too many input arguments.
 
->> error('a:a','a')
+&gt;&gt; error('a:a','a')
 a
 
->> warning('a:a','a')
+&gt;&gt; warning('a:a','a')
 Warning: a
 </code>
 </pre>
 
+<h3>Command vs. Function Syntax</h3>
+<pre class="prettyprint lang-matlab">
+<code>
+cd ..
+cd ..\folder
+
+dir *.m
+dir('*.m')
+dir('/path/to')
+dir('C:\path\to')
+
+whos('var*')
+whos var*
+whos *var
+whos var*ble
+
+whos -file aa.mat X
+whos('-file','aa.mat', 'X')
+
+load file.mat
+load('file.mat')
+
+isequal A A
+isequal('A','A')
+
+disp hello
+disp('hello')
+disp 'hello world'
+disp('hello world')
+</code>
+</pre>
+
+<hr />
+<h2>Octave</h2>
+<pre class="prettyprint lang-matlab">
+<code>
+# octave specific comments
+
+## comments
+## in Octave
+
+#!assert(sin(0)==0)
+#!error sin()
+
+#{
+block
+comment
+#}
+
+% double-quoted strings
+str = "hello world";
+
+% strings with escaping
+str = "double-quotes strings with \"escaping\" backslashes";
+
+% variable names
+a = 1;
+_a = 2;
+__somethgin_reserved = 3;
+
+_s = struct('_a',1);
+disp(_s._a)
+
+% increment/decrement
+x++; ++x;
+x+=y; x-=y; x*=y; x/=y; x^=y;
+x.+=y; x.-=y; x.*=y; x./=y; x.^=y;
+
+% index into rhs
+x = magic(5)(2,3);
+
+% exponentiation
+y = x^2;
+y = x**2;
+
+% logical not
+notEqual = (x != y);
+negateOp = !x;
+
+% printf/fprintf
+printf('hello world\n');
+
+% whitespace
+[0 1]'   % works in MATLAB and Octave
+[0 1] '  % works only in Octave (fix')
+
+% line continutation
+rand (1, ...
+      2)
+rand (1,
+      2)
+rand (1, \
+      2)
+
+% strings
+str = ['this is a ', \
+    'string'];
+str = 'this is a \
+    long text';
+
+
+% strings
+str = "aaa\
+bbb";                  % ==&gt; aaabbb
+str = ['aaa' ...       % ==&gt; aaabbb
+'bbb'];
+str = ["aaa" ...       % ==&gt; aaabbb
+"bbb"];
+str = 'aaa '' bbb';    % ==&gt; aaa ' bbb
+str = "aaa "" bbb";    % ==&gt; aaa " bbb
+str = "aaa \" bbb";    % ==&gt; aaa " bbb
+str = "aaa \n bbb";    % ==&gt; aaa {NewLine} bbb
+str = 'aaa "ccc" bbb'; % ==&gt; aaa "ccc" bbb
+str = "aaa 'ccc' bbb"; % ==&gt; aaa 'ccc' bbb
+str = 'aaa " bbb';     % ==&gt; aaa " bbb
+str = "aaa ' bbb";     % ==&gt; aaa ' bbb
+str = "aaaa
+bbb";                  % ==&gt; syntax error
+
+% line continuation
+x = [
+1
+2];
+x = [1
+2];
+x = [ ...
+1
+2];
+x = [
+1 ...
+2];
+x = [
+1;
+2];
+x = [1;
+2];
+x = [1; ...
+2];
+x = [1 ...
+2];
+
+% hex notation
+x = hex2dec('F0');
+x = 0xF0;
+
+% packages
+pkg install image
+pkg load image
+
+% command prompt
+octave:1&gt; function str = greet(name)
+&gt;   ## Say hello
+&gt;   str = ["Hello ", name];
+&gt; end
+octave:2&gt; greet("Me")
+ans = Hello Me
+
+% keywords
+for i=1:2
+    disp(i)
+endfor
+
+while true
+    if rand() &gt; 0.5
+        break;
+    endif
+endwhile
+
+function fcn()
+    disp('hello')
+endfunction
+
+switch x
+    otherwise
+endswitch
+
+x = 0;
+do
+    x += 1;
+until (x == 10)
+
+unwind_protect
+    % body
+unwind_protect_cleanup
+    % cleanup
+end_unwind_protect
+
+parfor i=1:10
+    disp(i)
+endparfor
+
+classdef MyKlass
+    properties
+        x
+    endproperties
+
+    events
+        ev
+    endevents
+
+    enumeration
+        A
+    endenumeration
+
+    methods
+        function m()
+        endfunction
+    endmethods
+endclassdef
+
+try
+    % body
+catch
+    % cleanup
+end_try_catch
+</code>
+</pre>
+
+<hr />
+<h2>C/C++</h2>
 <pre class="prettyprint lang-c">
 <code>
 #include "stdio.h"
@@ -325,6 +801,7 @@ int main() {
 </code>
 </pre>
 
+<h2>Python</h2>
 <pre class="prettyprint lang-python">
 <code>
 import numpy as np

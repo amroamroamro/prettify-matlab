@@ -1,4 +1,4 @@
-// REFERENCE: http://userscripts.org/scripts/show/71052
+// REFERENCE: http://userscripts-mirror.org/scripts/show/71052
 // REFERENCE: http://davidwalsh.name/twitter-dropdown-jquery
 function add_language_selection_menu() {
     "use strict";
@@ -7,8 +7,8 @@ function add_language_selection_menu() {
     if (typeof jQuery == 'undefined') { return; }
 
     // languages CSS classes
-    var languages = ["default", "lang-html", "lang-c", "lang-java", "lang-cs",
-        "lang-sh", "lang-pl", "lang-py", "lang-rb", "lang-js", "lang-matlab"];
+    var languages = ['default', 'lang-html', 'lang-c', 'lang-java', 'lang-cs',
+        'lang-sh', 'lang-pl', 'lang-py', 'lang-rb', 'lang-js', 'lang-matlab'];
 
     // return closure
     var makeClickHandler = function (pre, lang) {
@@ -19,10 +19,10 @@ function add_language_selection_menu() {
 
             // set new prettify class
             pre.removeClass();
-            pre.addClass("prettyprint " + lang);
+            pre.addClass('prettyprint ' + lang);
 
             // change language indicated
-            $(this).parent().prev(".pp-lang-link").children("span").text(lang);
+            $(this).parent().prev('.pp-lang-link').children('span').text(lang);
 
             // hide languge menu
             //$(this).parent().slideToggle();
@@ -36,13 +36,13 @@ function add_language_selection_menu() {
     };
 
     // go through each <pre> block, and add language selection menu
-    $("pre.prettyprint").each(function () {
+    $('pre.prettyprint').each(function () {
         // <pre> block
         var code = $(this);
 
         // current language used
-        var currLang = $.trim(this.className.replace('prettyprint', ''));
-        if (!currLang) { currLang = "default"; }
+        var currLang = $.trim(this.className.replace(/prettyprint(ed)?/g, ''));
+        if (!currLang) { currLang = 'default'; }
 
         // create <div> of language selector button
         var button = $('<div class="pp-lang-button" title="choose language"></div>');
@@ -87,9 +87,14 @@ function add_language_selection_menu() {
 function unprettify(codeNode) {
     // Note: el.innerHTML, el.textContent vs. $(el).html(), $(el).text()
     var code = $(codeNode);
-    var encodedStr = code.html().replace(/<br[^>]*>/g, "\n").replace(/&nbsp;/g, " ");   // html encoded
-    var decodedStr = $("<div/>").html(encodedStr).text();   // decode html entities
-    code.text(decodedStr);      // text() replaces special characters like `<` with `&lt;`
+    // html encoded
+    var encodedStr = code.html()
+        .replace(/<br[^>]*>/g, "\n")
+        .replace(/&nbsp;/g, ' ');
+    // decode html entities
+    var decodedStr = $('<div/>').html(encodedStr).text();
+    // text() replaces special characters like `<` with `&lt;`
+    code.text(decodedStr);
 }
 
 /*

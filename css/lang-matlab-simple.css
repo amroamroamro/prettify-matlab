@@ -3,16 +3,16 @@
 .str { color: #A020F0; }  /* strings */
 .kwd { color: #00F; }     /* reserved keywords */
 .com { color: #228B22; }  /* comments */
-.typ { color: #000; font-weight: bold; } /* data types */
-.lit { color: #800000; }  /* literal numeric values */
+.typ { color: #000; }     /* data types */
+.lit { color: #000; }     /* literal numeric values */
 .pun { color: #000; }     /* punctuation and operators */
-.opn, .clo { color: #DE7D00; }
+.opn, .clo { color: #000; }
 .tag { color: #00F; }
 .atn { color: #B20000; }
 .atv { color: #A020F0; }
 .dec { color: #00007C; }
-.var { color: #00008B; }  /* special variables/constants */
-.fun { color: #00A3A3; }  /* core/toolbox functions */
+.var { color: #000; }     /* special variables/constants */
+.fun { color: #000; }     /* core/toolbox functions */
 .idnt { color: #000; }    /* user-defined variable/function identifiers */
 .scmd { color: #B28C00; } /* system commands */
 .prmpt { color: #000; }   /* command prompt */

@@ -9,6 +9,7 @@ SOURCES = %w[
     prettify-matlab.user.js
     prettify-mathworks-answers.user.js
     prettify-mathworks-fileexchange.user.js
+    prettify-mathworks-examples.user.js
     switch-lang.user.js
 ]
 

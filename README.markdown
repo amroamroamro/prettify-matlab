@@ -74,15 +74,13 @@ inspired by that of the MATLAB IDE (with some modifications).
 
 See the [demo][8] page for a demonstration.
 
-UPDATE: The MATLAB extension is now integrated upstream in
-[google/code-prettify][9]. So you can use the auto-loader to directly load
-both code-prettify along with the MATLAB extension via one URL:
+**UPDATE**: The MATLAB extension is now integrated upstream in
+[google/code-prettify][9]. So you can use the [auto-loader][10] to directly
+load both code-prettify along with the MATLAB extension via one URL:
 
 ``` html
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=matlab"></script>
 ```
-
-Read more about the auto-loader in the [documentation][10].
 
 
 ## Userscripts
@@ -125,6 +123,13 @@ Apply MATLAB syntax hightighting on [File Exchange][16].
 [![Source][SourceButton]](js/prettify-mathworks-fileexchange.user.js)
 [![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-mathworks-fileexchange.user.js)
 
+### MathWorks MATLAB Examples
+
+Apply MATLAB syntax hightighting on [MATLAB Examples][17].
+
+[![Source][SourceButton]](js/prettify-mathworks-examples.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-mathworks-examples.user.js)
+
 
 ## License
 
@@ -147,5 +152,6 @@ Project released under the [MIT License](LICENSE).
 [14]: http://stackoverflow.com/questions/tagged/matlab
 [15]: http://www.mathworks.com/matlabcentral/answers/
 [16]: http://www.mathworks.com/matlabcentral/fileexchange/
+[17]: http://www.mathworks.com/examples/
 [SourceButton]: https://cdn.rawgit.com/jerone/UserScripts/master/_resources/Source-button.png
 [InstallButton]: https://cdn.rawgit.com/jerone/UserScripts/master/_resources/Install-button.png

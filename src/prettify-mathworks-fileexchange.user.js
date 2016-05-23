@@ -4,10 +4,11 @@
 // @description    Enable MATLAB syntax highlighting on File Exchange
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
-// @version        1.3
+// @version        2.0
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.tld/matlabcentral/fileexchange/*
+// @include        http://www.mathworks.tld/matlabcentral/mlc-downloads/*/index.html
 // @run-at         document-end
 // @grant          none
 // ==/UserScript==
@@ -23,6 +24,12 @@
         document.body.appendChild(script);
         //document.body.removeChild(script);
     }
+    function GM_addScript_external(jsURL) {
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', jsURL);
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
     function GM_addStyle_inline(cssTxt) {
         var style = document.createElement('style');
         style.setAttribute('type', 'text/css');
@@ -37,14 +44,27 @@
         document.getElementsByTagName('head')[0].appendChild(style);
     }
 
-    // activate only on an actual submission page
-    // (ignore file lists, and such)
-    if ( !/^\/matlabcentral\/fileexchange\/\d+/.test(window.location.pathname) ) {
+    // userscript runs in one of two places:
+    // 1) in parent page => relax iframe sandbox restrictions to allow JS
+    if ( /^\/matlabcentral\/fileexchange\/\d+/.test(window.location.pathname) ) {
+        var ifrm = document.getElementById('content_iframe');
+        if (ifrm && ifrm.getAttribute('sandbox')) {
+            //ifrm.sandbox += ' allow-scripts';
+            ifrm.removeAttribute('sandbox');  // remove sandbox altogether
+        }
+        return;
+    }
+    // 2) in iframe page => apply syntax highlighting
+    // activate only on source code page (ignore download and such)
+    else if ( !/^\/matlabcentral\/mlc-downloads\//.test(window.location.pathname) ) {
         return;
     }
 
-    // insert CSS styles
+    // load prettify library
     GM_addStyle_external('http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.css');
+    GM_addScript_external('http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js');
+
+    // insert CSS styles
     GM_addStyle_inline([
         //=INSERT_FILE_QUOTED= ../css/lang-matlab.css
         'pre.prettyprint {',
@@ -54,33 +74,35 @@
         '  border: 1px solid #CCC;',
         '  background-color: #F5F5F5;',
         '}'
-    ].join(""));
+    ].join(''));
 
     // insert JS code
     GM_addScript_inline(function () {
-        // we require jQuery to be already loaded in the page
-        if (typeof jQuery == 'undefined') { return; }
+        // wait for prettify to load
+        var attempts = 0;
+        waitForPR();
 
-        // use jQuery Deferred to load prettify, then execute our code
-        $.ajax({
-            cache: true,
-            async: true,
-            dataType: 'script',
-            url: 'http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js'
-        }).done(function () {
-            // register the new language handlers
-            RegisterMATLABLanguageHandlers();
+        function waitForPR() {
+            if((typeof PR == 'undefined') && (++attempts < 20)) {
+                window.setTimeout(waitForPR, 200);
+            }
+            else {
+                // register the new language handlers
+                RegisterMATLABLanguageHandlers();
 
-            // on DOMContentLoaded
-            $(document).ready(function () {
                 // for each <pre.matlab-code> blocks
                 // apply prettyprint class, and set the language to MATLAB
-                $('pre.matlab-code').addClass('prettyprint lang-matlab');
+                var blocks = document.getElementsByTagName('pre');
+                for (var i = 0; i < blocks.length; ++i) {
+                    if (blocks[i].className.indexOf('matlab-code') != -1) {
+                        blocks[i].className = 'prettyprint lang-matlab';
+                    }
+                }
 
                 // apply highlighting
                 prettyPrint();
-            });
-        });
+            }
+        }
 
         function RegisterMATLABLanguageHandlers() {
             //=RENDER_FILE= ./_main.js

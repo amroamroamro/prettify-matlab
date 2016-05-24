@@ -7,7 +7,7 @@
 // @version        1.3
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
-// @include        http://www.mathworks.tld/examples/*
+// @include        http://www.mathworks.com/examples/*
 // @run-at         document-end
 // @grant          none
 // ==/UserScript==

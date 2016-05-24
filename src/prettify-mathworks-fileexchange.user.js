@@ -7,8 +7,8 @@
 // @version        2.0
 // @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
-// @include        http://www.mathworks.tld/matlabcentral/fileexchange/*
-// @include        http://www.mathworks.tld/matlabcentral/mlc-downloads/*/index.html
+// @include        http://www.mathworks.com/matlabcentral/fileexchange/*
+// @include        http://www.mathworks.com/matlabcentral/mlc-downloads/*/index.html
 // @run-at         document-end
 // @grant          none
 // ==/UserScript==

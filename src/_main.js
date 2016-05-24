@@ -24,8 +24,11 @@ var PR_IDENTIFIER = 'idnt pln',        // user-defined variable/function identif
     PR_TRANSPOSE = 'tps pun',          // transpose operator
     PR_LINE_CONTINUATION = 'lcnt pun'; // line continuation
 
-// List of functions (extracted from MATLAB R2012a)
-// Refer to: http://www.mathworks.com/help/matlab/functionlist-alpha.html
+// List of functions (extracted from MATLAB R2016a), refer to:
+//  http://www.mathworks.com/help/matlab/functionlist-alpha.html
+//  http://www.mathworks.com/help/stats/functionlist-alpha.html
+//  http://www.mathworks.com/help/images/functionlist-alpha.html
+//  http://www.mathworks.com/help/optim/functionlist-alpha.html
 var coreFunctions = [
     //=INSERT_FILE_QUOTED_CONCATED= ./functions/core.txt
 ].join('|');

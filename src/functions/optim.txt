@@ -12,12 +12,16 @@ fzero
 fzmult
 gangstr
 ktrlink
+intlinprog
 linprog
 lsqcurvefit
 lsqlin
 lsqnonlin
 lsqnonneg
+mpsread
 optimget
+optimoptions
 optimset
 optimtool
 quadprog
+resetoptions

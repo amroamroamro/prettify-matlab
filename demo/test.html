@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Test</title>
+<link rel="stylesheet" type="text/css" href="css/prettify.css">
+<link rel="stylesheet" type="text/css" href="../css/lang-matlab.css">
+<script src="js/prettify.js"></script>
+<script src="../js/lang-matlab.js"></script>
+</head>
+
+<body>
+<h1>MATLAB Code</h1>
+<div id="container"></div>
+</body>
+
+<script type="text/javascript">
+// hack to write multiline string with the source code
+var source = (function(){/*
+function out = fcn(in)
+    out = sin(in);
+end
+
+% example
+x = single(linspace(-6,6,100).');
+y = fcn(x);
+plot(x, y, 'LineWidth',2);
+*/}).toString().slice(14,-3);
+
+// prettify
+var html = prettyPrintOne(source, "matlab", false);
+var pre = document.createElement('pre');
+pre.className = 'prettyprint';
+pre.innerHTML = html;
+
+// insert in DOM
+var div = document.getElementById('container');
+div.appendChild(pre);
+</script>
+
+</html>

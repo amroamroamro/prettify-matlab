@@ -19,11 +19,14 @@ The following constructs are recognized:
 - user-defined indentifiers (function and variable names not matched in
   previous steps)
 
-It also highlights MATLAB functions:
+The "full" version also adds highlighting for MATLAB functions:
 
 - over 1300 builtin functions from core [MATLAB][2] (`cos`, `plot`, etc...)
 - additional functions from popular toolboxes ([Statistics][3], [IPT][4],
   and [Optimization][5])
+
+*(Since this increases the resulting script size, a separate "lite" version is
+also available which excludes function names detection)*.
 
 The project was inspired by the similar [Mathematica.SE][6] syntax
 highlighter.
@@ -31,15 +34,49 @@ highlighter.
 
 ## Build
 
-You can rebuild the project by running `rake` in the command line. This will
-generate the output javascript and stylesheet files in the [`dist`](dist/)
-directory using the source templates from the [`src`](src/) directory.
+Requirements: [Node.js][18] and the [NPM][19] package manager.
 
-This step requires [Rake][7] (only as a build-dependency), a Make-like build
-tool for Ruby, used here to provide basic template processing.
+To rebuild the project, run the following in the command line:
+
+``` sh
+$ cd prettify-matlab
+$ npm install
+$ npm run build
+```
+
+First this will install build dependencies, then generate the output
+javascript and stylesheet files in the [`dist`](dist/) directory using the
+source templates from the [`src`](src/) directory.
+
+    dist/
+    |
+    |-- js/
+    |    |-- full/
+    |    |    |-- lang-matlab.js      # code-prettify extension (full version)
+    |    |    |-- lang-matlab.js.min  # and minimized version
+    |    |
+    |    |-- lite/
+    |         |-- lang-matlab.js      # code-prettify extension (lite version)
+    |         |-- lang-matlab.js.min  # and minimized version
+    |
+    |-- css/
+    |    |-- matlab.css               # optional skin for code-prettify
+    |    |-- matlab.css.min           # and minimized version
+    |
+    |-- userscripts/
+         |-- prettify-matlab.user.js                  # userscripts for
+         |-- switch-lang.user.js                      #  Stack Overflow
+         |-- prettify-mathworks-answers.user.js       # userscripts for
+         |-- prettify-mathworks-fileexchange.user.js  #  various MathWorks
+         |-- prettify-mathworks-examples.user.js      #  websites
 
 
 ## Usage (google-code-prettify extension)
+
+| Version | Source                                                 |
+| ------- |------------------------------------------------------- |
+| Full    | [![Source][SourceButton]](dist/js/full/lang-matlab.js) |
+| Lite    | [![Source][SourceButton]](dist/js/lite/lang-matlab.js) |
 
 To apply the MALTAB syntax highlighting on code snippets in your own web
 pages, first include the prettify scripts and stylesheets in your document (as
@@ -89,7 +126,7 @@ For instructions on installing userscripts for various browsers, see
 
 ### Stack Overflow
 
-Apply MATLAB syntax hightighting on [Stack Overflow][13] and other
+Apply MATLAB syntax highlighting on [Stack Overflow][13] and other
 Stack Exchange sites. The script is only activated on questions tagged as
 [`matlab`][14].
 
@@ -103,28 +140,28 @@ code block, with an attached drop-down menu to allow language selection.
 [![Source][SourceButton]](dist/userscripts/switch-lang.user.js)
 [![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/switch-lang.user.js)
 
-UPDATE: Stack Overflow recently integrated MATLAB syntax support, so you
+**UPDATE**: Stack Overflow recently integrated MATLAB syntax support, so you
 should get proper syntax highlighting by default. This userscript is still
 useful if you want to get full highlighting for function names as well as the
 customized stylesheet which applies colors resembling the MATLAB editor.
 
 ### MathWorks MATLAB Answers
 
-Apply MATLAB syntax hightighting on [MATLAB Answers][15].
+Apply MATLAB syntax highlighting on [MATLAB Answers][15].
 
 [![Source][SourceButton]](dist/userscripts/prettify-mathworks-answers.user.js)
 [![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-answers.user.js)
 
 ### MathWorks File Exchange
 
-Apply MATLAB syntax hightighting on [File Exchange][16].
+Apply MATLAB syntax highlighting on [File Exchange][16].
 
 [![Source][SourceButton]](dist/userscripts/prettify-mathworks-fileexchange.user.js)
 [![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-fileexchange.user.js)
 
 ### MathWorks MATLAB Examples
 
-Apply MATLAB syntax hightighting on [MATLAB Examples][17].
+Apply MATLAB syntax highlighting on [MATLAB Examples][17].
 
 [![Source][SourceButton]](dist/userscripts/prettify-mathworks-examples.user.js)
 [![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-examples.user.js)
@@ -141,7 +178,6 @@ Project released under the [MIT License](LICENSE).
 [4]: http://www.mathworks.com/products/image/
 [5]: http://www.mathworks.com/products/optimization/
 [6]: https://github.com/halirutan/Mathematica-Source-Highlighting
-[7]: https://github.com/ruby/rake
 [8]: http://rawgit.com/amroamroamro/prettify-matlab/master/demo/index.html
 [9]: https://github.com/google/code-prettify/blob/master/src/lang-matlab.js
 [10]: https://github.com/google/code-prettify/blob/master/docs/getting_started.md#auto-loader
@@ -152,5 +188,7 @@ Project released under the [MIT License](LICENSE).
 [15]: http://www.mathworks.com/matlabcentral/answers/
 [16]: http://www.mathworks.com/matlabcentral/fileexchange/
 [17]: http://www.mathworks.com/examples/
+[18]: http://nodejs.org/
+[19]: https://www.npmjs.com/
 [SourceButton]: https://cdn.rawgit.com/jerone/UserScripts/master/_resources/Source-button.png
 [InstallButton]: https://cdn.rawgit.com/jerone/UserScripts/master/_resources/Install-button.png

@@ -109,6 +109,33 @@ module.exports = function (grunt) {
             }
         },
 
+        // task: grunt-contrib-jshint
+        jshint: {
+            options: {
+                //NOTE: inline options here are ignored if file is specified
+                jshintrc: '.jshintrc'
+            },
+            proj: {
+                src: 'Gruntfile.js'
+            },
+            ext: {
+                src: ['dist/js/{full,lite}/*.js', '!dist/js/{full,lite}/*.min.js']
+            },
+            userjs: {
+                src: 'dist/userscripts/*.user.js'
+            }
+        },
+
+        // task: grunt-contrib-csslint
+        csslint: {
+            options: {
+                //csslintrc: '.csslintrc'
+            },
+            ext: {
+                src: ['dist/css/*.css', '!dist/css/*.min.css']
+            }
+        },
+
         // task: grunt-contrib-uglify
         uglify: {
             ext: {
@@ -193,6 +220,8 @@ module.exports = function (grunt) {
 
     // load grunt plugins for extra tasks
     grunt.loadNpmTasks('grunt-mustache-render');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -200,15 +229,22 @@ module.exports = function (grunt) {
     grunt.renameTask('mustache_render', 'mustache');
 
     // register tasks
+    grunt.registerTask('proj', 'Lint project files.', [
+        'jshint:proj'
+    ]);
     grunt.registerTask('ext', 'Build code-prettify extension.', [
         'mustache:ext',
+        'jshint:ext',
+        'csslint:ext',
         'uglify:ext',
         'cssmin:ext'
     ]);
     grunt.registerTask('userjs', 'Build userscripts.', [
-        'mustache:userjs'
+        'mustache:userjs',
+        'jshint:userjs'
     ]);
     grunt.registerTask('all', 'Build all targets.', [
+        'proj',
         'ext',
         'userjs'
     ]);

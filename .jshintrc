@@ -1,0 +1,19 @@
+{
+  "browser": true,  // document, window
+  "node": true,     // module, require
+  "jquery": true,   // $
+  "globals": {
+    "PR": false,
+    "StackExchange": false
+  },
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "esversion": 3,
+  "futurehostile": true,
+  "latedef": "nofunc",
+  "nocomma": true,
+  "nonbsp": true,
+  "undef": true,
+  "unused": true
+}

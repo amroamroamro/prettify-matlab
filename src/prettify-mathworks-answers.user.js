@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           MathWorks Answers: MATLAB syntax highlighter
-// @namespace      https://github.com/amroamroamro
 // @description    Enable MATLAB syntax highlighting on MATLAB Answers
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        1.3
-// @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/answers/*
 // @run-at         document-end
@@ -39,7 +39,7 @@
 
     // activate only on an actual question page
     // (ignore question lists, and such)
-    if ( !/^\/matlabcentral\/answers\/\d+/.test(window.location.pathname) ) {
+    if (!/^\/matlabcentral\/answers\/\d+/.test(window.location.pathname)) {
         return;
     }
 
@@ -54,13 +54,10 @@
         '  border: 1px solid #CCC;',
         '  background-color: #F5F5F5;',
         '}'
-    ].join(''));
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
-        // we require jQuery to be already loaded in the page
-        if (typeof jQuery == 'undefined') { return; }
-
         // use jQuery Deferred to load prettify, then execute our code
         $.ajax({
             cache: true,
@@ -69,41 +66,43 @@
             url: 'http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js'
         }).done(function () {
             // register the new language handlers
-            RegisterMATLABLanguageHandlers();
+            registerMATLABLanguageHandlers();
 
             // on DOMContentLoaded
             $(document).ready(function () {
                 // merge consecutive PRE blocks into one
-                $('pre').filter(function(){
+                $('pre').filter(function () {
                     // find first PRE from each group of PRE elements
                     // (check if it's followed by PRE, but not preceded by one)
-                    return ( $(this).next().is('pre')) &&
-                        !($(this).prev().is('pre') );
-                }).each(function() {
+                    return ($(this).next().is('pre')) &&
+                        !($(this).prev().is('pre'));
+                }).each(function () {
                     // get all following PRE elements
-                    var el = $(this).nextUntil(function(){
+                    var el = $(this).nextUntil(function () {
                         // until something not PRE
                         return !($(this).is('pre'));
                     });
+
                     // get their html content, merge as one,
                     // and append content to first PRE
-                    $(this).append( "\n" + el.map(function(){
+                    $(this).append('\n' + el.map(function () {
                         return $(this).html();
-                    }).get().join("\n") );
+                    }).get().join('\n'));
+
                     // remove those PRE elements
                     el.remove();
                 });
 
-                // for each <pre.language-matlab> blocks
-                // apply prettyprint class, and set the language to MATLAB
+                // for each <pre.language-matlab> block,
+                // apply prettyprint class, and set language to MATLAB
                 $('pre.language-matlab').addClass('prettyprint lang-matlab');
 
                 // apply highlighting
-                prettyPrint();
+                PR.prettyPrint();
             });
         });
 
-        function RegisterMATLABLanguageHandlers() {
+        function registerMATLABLanguageHandlers() {
             //=RENDER_FILE= ./_main.js
         }
     });

@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           MathWorks Examples: MATLAB syntax highlighter
-// @namespace      https://github.com/amroamroamro
 // @description    Enable MATLAB syntax highlighting on MATLAB Examples
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        1.3
-// @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/examples/*
 // @run-at         document-end
@@ -48,13 +48,10 @@
         '  border: 1px solid #D3D3D3;',
         '  background-color: #F7F7F7;',
         '}'
-    ].join(''));
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
-        // we require jQuery to be already loaded in the page
-        if (typeof jQuery == 'undefined') { return; }
-
         // use jQuery Deferred to load prettify, then execute our code
         $.ajax({
             cache: true,
@@ -63,28 +60,26 @@
             url: 'http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.js'
         }).done(function () {
             // register the new language handlers
-            RegisterMATLABLanguageHandlers();
+            registerMATLABLanguageHandlers();
 
             // on DOMContentLoaded
             $(document).ready(function () {
-                // for each <pre.codeinput> blocks, remove existing formatting
-                // by resetting content to plain text.
-                // Then apply prettyprint class, and set the language to MATLAB
-                $('pre.codeinput').each(function() {
+                // for each <pre.codeinput> block,
+                // reset content to plain text,
+                // then apply prettyprint class, and set language to MATLAB
+                $('pre.codeinput').each(function () {
                     unprettify($(this));
                 }).addClass('prettyprint lang-matlab');
 
                 // apply highlighting
-                prettyPrint();
+                PR.prettyPrint();
             });
         });
 
-        function unprettify(codeNode) {
-            // <code> tag
-            var code = $(codeNode);
+        function unprettify(code) {
             // html encoded
             var encodedStr = code.html()
-                .replace(/<br[^>]*>/g, "\n")
+                .replace(/<br[^>]*>/g, '\n')
                 .replace(/&nbsp;/g, ' ');
             // decode html entities
             var decodedStr = $('<div/>').html(encodedStr).text();
@@ -92,7 +87,7 @@
             code.text(decodedStr);
         }
 
-        function RegisterMATLABLanguageHandlers() {
+        function registerMATLABLanguageHandlers() {
             //=RENDER_FILE= ./_main.js
         }
     });

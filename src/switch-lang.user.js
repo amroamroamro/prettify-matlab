@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Stack Overflow: switch language of syntax highlighting
-// @namespace      https://github.com/amroamroamro
 // @description    Enable switching the language of syntax highlighting on Stack Overflow
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        1.3
-// @license        MIT License
 // @icon           http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
@@ -32,20 +32,24 @@
 
     // activate only on an actual question page
     // (ignore question lists, tag pages, and such)
-    if ( !/^\/questions\/(\d+|ask)/.test(window.location.pathname) ) {
+    if (!/^\/questions\/(\d+|ask)/.test(window.location.pathname)) {
         return;
     }
 
     // insert CSS styles
     GM_addStyle_inline([
         //=INSERT_FILE_QUOTED= ./switch_lang.css
-    ].join(''));
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
         // add to onReady queue of SE (a stub for jQuery.ready)
         StackExchange.ready(function () {
-            add_language_selection_menu();
+            // check prettify JS library is available, otherwise lazy load it
+            StackExchange.using('prettify', function () {
+                // add language selection menus
+                addLanguageSelectionMenu();
+            });
         });
 
         //=INSERT_FILE= ./_switch_lang.js

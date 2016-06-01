@@ -53,7 +53,7 @@ var optimFunctions = [
 // patterns that always start with a known character. Must have a shortcut string.
 var shortcutStylePatterns = [
     // whitespaces: space, tab, carriage return, line feed, line tab, form-feed, non-break space
-    [PR.PR_PLAIN, /^[ \t\r\n\v\f\xA0]+/, null, " \t\r\n\u000b\u000c\u00a0"],
+    [PR.PR_PLAIN, /^[ \t\r\n\v\f\xA0]+/, null, ' \t\r\n\u000b\u000c\u00a0'],
 
     // block comments
     //TODO: chokes on nested block comments
@@ -62,10 +62,10 @@ var shortcutStylePatterns = [
     [PR.PR_COMMENT, /^%\{[^%]*%+(?:[^\}%][^%]*%+)*\}/, null],
 
     // single-line comments
-    [PR.PR_COMMENT, /^%[^\r\n]*/, null, "%"],
+    [PR.PR_COMMENT, /^%[^\r\n]*/, null, '%'],
 
     // system commands
-    [PR_SYSCMD, /^![^\r\n]*/, null, "!"]
+    [PR_SYSCMD, /^![^\r\n]*/, null, '!']
 ];
 
 // patterns that will be tried in order if the shortcut ones fail. May have shortcuts.
@@ -88,12 +88,12 @@ var fallthroughStylePatterns = [
     // identifier (chain) or closing-parenthesis/brace/bracket,
     // and IS followed by transpose operator. This way we dont misdetect the
     // transpose operator ' as the start of a string
-    ["lang-matlab-operators", /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
+    ['lang-matlab-operators', /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
 
     // identifier (chain), and NOT followed by transpose operator.
     // This must come AFTER the "is followed by transpose" step
     // (otherwise it chops the last char of identifier)
-    ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
+    ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
 
     // single-quoted strings: allow for escaping with '', no multilines
     [PR.PR_STRING, /^'(?:[^']|'')*'/, null],
@@ -104,7 +104,7 @@ var fallthroughStylePatterns = [
     [PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null],
 
     // parentheses, braces, brackets
-    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
+    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // '{}()[]'
 
     // other operators
     [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null]
@@ -133,10 +133,10 @@ var identifiersPatterns = [
 
 var operatorsPatterns = [
     // forward to identifiers to match
-    ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
+    ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
 
     // parentheses, braces, brackets
-    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
+    [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // '{}()[]'
 
     // other operators
     [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
@@ -147,13 +147,13 @@ var operatorsPatterns = [
 
 PR.registerLangHandler(
     PR.createSimpleLexer([], identifiersPatterns),
-    ["matlab-identifiers"]
+    ['matlab-identifiers']
 );
 PR.registerLangHandler(
     PR.createSimpleLexer([], operatorsPatterns),
-    ["matlab-operators"]
+    ['matlab-operators']
 );
 PR.registerLangHandler(
     PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
-    ["matlab"]
+    ['matlab']
 );

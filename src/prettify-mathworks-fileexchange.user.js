@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           MathWorks File Exchange: MATLAB syntax highlighter
-// @namespace      https://github.com/amroamroamro
 // @description    Enable MATLAB syntax highlighting on File Exchange
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        2.0
-// @license        MIT License
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/fileexchange/*
 // @include        http://www.mathworks.com/matlabcentral/mlc-downloads/*/index.html
@@ -45,18 +45,17 @@
     }
 
     // userscript runs in one of two places:
-    // 1) in parent page => relax iframe sandbox restrictions to allow JS
-    if ( /^\/matlabcentral\/fileexchange\/\d+/.test(window.location.pathname) ) {
+    if (/^\/matlabcentral\/fileexchange\/\d+/.test(window.location.pathname)) {
+        // 1) in parent page => relax iframe sandbox restrictions to allow JS
         var ifrm = document.getElementById('content_iframe');
         if (ifrm && ifrm.getAttribute('sandbox')) {
             //ifrm.sandbox += ' allow-scripts';
             ifrm.removeAttribute('sandbox');  // remove sandbox altogether
         }
         return;
-    }
-    // 2) in iframe page => apply syntax highlighting
-    // activate only on source code page (ignore download and such)
-    else if ( !/^\/matlabcentral\/mlc-downloads\//.test(window.location.pathname) ) {
+    } else if (!/^\/matlabcentral\/mlc-downloads\//.test(window.location.pathname)) {
+        // 2) in iframe page => apply syntax highlighting
+        // activate only on source code page (ignore download and such)
         return;
     }
 
@@ -66,7 +65,7 @@
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ../css/lang-matlab.css
+        //=INSERT_FILE_QUOTED= ./matlab.css
         'pre.prettyprint {',
         '  white-space: pre;',
         '  overflow: auto;',
@@ -74,37 +73,35 @@
         '  border: 1px solid #CCC;',
         '  background-color: #F5F5F5;',
         '}'
-    ].join(''));
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
         // wait for prettify to load
-        var attempts = 0;
         waitForPR();
 
         function waitForPR() {
-            if((typeof PR == 'undefined') && (++attempts < 20)) {
+            if (typeof PR === 'undefined') {
                 window.setTimeout(waitForPR, 200);
-            }
-            else {
+            } else {
                 // register the new language handlers
-                RegisterMATLABLanguageHandlers();
+                registerMATLABLanguageHandlers();
 
-                // for each <pre.matlab-code> blocks
-                // apply prettyprint class, and set the language to MATLAB
+                // for each <pre.matlab-code> block,
+                // apply prettyprint class, and set language to MATLAB
                 var blocks = document.getElementsByTagName('pre');
                 for (var i = 0; i < blocks.length; ++i) {
-                    if (blocks[i].className.indexOf('matlab-code') != -1) {
+                    if (blocks[i].className.indexOf('matlab-code') !== -1) {
                         blocks[i].className = 'prettyprint lang-matlab';
                     }
                 }
 
                 // apply highlighting
-                prettyPrint();
+                PR.prettyPrint();
             }
         }
 
-        function RegisterMATLABLanguageHandlers() {
+        function registerMATLABLanguageHandlers() {
             //=RENDER_FILE= ./_main.js
         }
     });

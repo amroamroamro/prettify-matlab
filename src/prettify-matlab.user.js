@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Stack Overflow: MATLAB syntax highlighter
-// @namespace      https://github.com/amroamroamro
 // @description    Enable MATLAB syntax highlighting on Stack Overflow
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        1.3
-// @license        MIT License
 // @icon           http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
@@ -32,28 +32,23 @@
 
     // activate only on an actual question page
     // (ignore question lists, tag pages, and such)
-    if ( !/^\/questions\/(\d+|ask)/.test(window.location.pathname) ) {
+    if (!/^\/questions\/(\d+|ask)/.test(window.location.pathname)) {
         return;
     }
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ../css/lang-matlab.css
-    ].join(''));
+        //=INSERT_FILE_QUOTED= ./matlab.css
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
         // add to onReady queue of SE (a stub for $.ready)
         StackExchange.ready(function () {
             // check if question tags contain MATLAB
-            var isMATLAB = false;
-            var tags = document.getElementsByClassName('post-tag');
-            for (var i = 0; i < tags.length; ++i) {
-                if (tags[i].textContent === 'matlab') {
-                    isMATLAB = true;
-                    break;
-                }
-            }
+            var isMATLAB = $('a.post-tag').is(function () {
+                return /matlab/i.test($(this).text());
+            });
             if (!isMATLAB || !StackExchange.options.styleCode) {
                 return;
             }
@@ -61,39 +56,27 @@
             // check prettify JS library is available, otherwise lazy load it
             StackExchange.using('prettify', function () {
                 // register the new language handlers
-                RegisterMATLABLanguageHandlers();
+                registerMATLABLanguageHandlers();
 
-                // explicitly specify the lang for the whole page
-                var prLang = document.getElementById('prettify-lang');
-                prLang.textContent = 'lang-matlab';
-                // for each prettyprint <pre> blocks
-                var blocks = document.getElementsByTagName('pre');
-                for (var i = 0; i < blocks.length; ++i) {
-                    // look for embedded HTML5 <code> element
-                    if (blocks[i].className.indexOf('prettyprint') != -1 &&
-                            blocks[i].children.length &&
-                            blocks[i].children[0].tagName === 'CODE') {
-                        // remove existing formatting inside <code> tag by
-                        // resetting content to plain text. This is necessary
-                        // on Stack Overflow to avoid "double-styling"
-                        unprettify(blocks[i].children[0]);
+                // override the lang for the whole page
+                $('#prettify-lang').text('lang-matlab');
 
-                        // set the language to MATLAB
-                        blocks[i].className = 'prettyprint lang-matlab';
-                    }
-                }
+                // for each <pre.prettyprint> block,
+                // reset content to plain text,
+                // then apply prettyprint class, and set language to MATLAB
+                $('pre.prettyprint').each(function () {
+                    unprettify($(this).children('code'));
+                }).removeClass().addClass('prettyprint lang-matlab');
 
-                // reapply highlighting (calls window.prettyPrint() function)
+                // reapply highlighting (calls PR.prettyPrint)
                 StackExchange.prettify.applyCodeStyling();
             });
         });
 
-        function unprettify(codeNode) {
-            // <code> tag
-            var code = $(codeNode);
+        function unprettify(code) {
             // html encoded
             var encodedStr = code.html()
-                .replace(/<br[^>]*>/g, "\n")
+                .replace(/<br[^>]*>/g, '\n')
                 .replace(/&nbsp;/g, ' ');
             // decode html entities
             var decodedStr = $('<div/>').html(encodedStr).text();
@@ -101,7 +84,7 @@
             code.text(decodedStr);
         }
 
-        function RegisterMATLABLanguageHandlers() {
+        function registerMATLABLanguageHandlers() {
             //=RENDER_FILE= ./_main.js
         }
     });

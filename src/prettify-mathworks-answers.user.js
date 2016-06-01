@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           MathWorks Answers: MATLAB syntax highlighter
 // @description    Enable MATLAB syntax highlighting on MATLAB Answers
-// @namespace      https://github.com/amroamroamro
-// @author         Amro <amroamroamro@gmail.com>
-// @homepage       https://github.com/amroamroamro/prettify-matlab
-// @license        MIT
-// @version        1.3
+// @namespace      {{{ pkg.author.url }}}
+// @author         {{{ pkg.author.name }}} ({{{ pkg.author.email }}})
+// @homepage       {{{ pkg.homepage }}}
+// @license        {{{ pkg.license }}}
+// @version        2.0
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/answers/*
 // @run-at         document-end
@@ -46,7 +46,9 @@
     // insert CSS styles
     GM_addStyle_external('http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.css');
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ./matlab.css
+        {{# indentLines2 }}{{# quoteLines }}{{> src/matlab.css }}{{/ quoteLines }}{{/ indentLines2 }}
+    ].join('\n'));
+    GM_addStyle_inline([
         'pre.prettyprint {',
         '  white-space: pre;',
         '  overflow: auto;',
@@ -103,7 +105,7 @@
         });
 
         function registerMATLABLanguageHandlers() {
-            //=RENDER_FILE= ./_main.js
+            {{# indentLines3 }}{{> src/_main.js }}{{/ indentLines3 }}
         }
     });
 })();

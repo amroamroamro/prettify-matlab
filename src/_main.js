@@ -15,7 +15,9 @@ PR.PR_DECLARATION = 'dec';
 */
 var PR_IDENTIFIER = 'idnt pln',        // user-defined variable/function identifiers
     PR_VARIABLE = 'var pln',           // special variables/constants
+{{^ lite }}
     PR_FUNCTION = 'fun pln',           // core/toolbox functions
+{{/ lite }}
     PR_SYSCMD = 'scmd dec',            // system commands
     PR_PROMPT = 'prmpt pln',           // command prompt
     PR_ERROR = 'err pln',              // error messages
@@ -23,24 +25,6 @@ var PR_IDENTIFIER = 'idnt pln',        // user-defined variable/function identif
     PR_PARENS = 'prn pun',             // parentheses, braces, brackets
     PR_TRANSPOSE = 'tps pun',          // transpose operator
     PR_LINE_CONTINUATION = 'lcnt pun'; // line continuation
-
-// List of functions (extracted from MATLAB R2016a), refer to:
-//  http://www.mathworks.com/help/matlab/functionlist-alpha.html
-//  http://www.mathworks.com/help/stats/functionlist-alpha.html
-//  http://www.mathworks.com/help/images/functionlist-alpha.html
-//  http://www.mathworks.com/help/optim/functionlist-alpha.html
-var coreFunctions = [
-    //=INSERT_FILE_QUOTED_CONCATED= ./functions/core.txt
-].join('|');
-var statsFunctions = [
-    //=INSERT_FILE_QUOTED_CONCATED= ./functions/stats.txt
-].join('|');
-var imageFunctions = [
-    //=INSERT_FILE_QUOTED_CONCATED= ./functions/image.txt
-].join('|');
-var optimFunctions = [
-    //=INSERT_FILE_QUOTED_CONCATED= ./functions/optim.txt
-].join('|');
 
 // identifiers: variable/function name, or a chain of variable names joined
 // by dots (obj.method, struct.field1.field2, etc..). Valid variable names
@@ -121,12 +105,18 @@ var identifiersPatterns = [
     // some data types
     [PR.PR_TYPE, /^\b(?:cell|struct|char|double|single|logical|u?int(?:8|16|32|64)|sparse)\b/, null],
 
+{{^ lite }}
     // commonly used builtin functions from core MATLAB and a few popular toolboxes
-    [PR_FUNCTION, new RegExp('^\\b(?:' + coreFunctions + ')\\b'), null],
-    [PR_FUNCTION, new RegExp('^\\b(?:' + statsFunctions + ')\\b'), null],
-    [PR_FUNCTION, new RegExp('^\\b(?:' + imageFunctions + ')\\b'), null],
-    [PR_FUNCTION, new RegExp('^\\b(?:' + optimFunctions + ')\\b'), null],
+    // List of functions extracted from MATLAB R2016a, refer to:
+    //  http://www.mathworks.com/help/matlab/functionlist-alpha.html
+    //  http://www.mathworks.com/help/stats/functionlist-alpha.html
+    //  http://www.mathworks.com/help/images/functionlist-alpha.html
+    //  http://www.mathworks.com/help/optim/functionlist-alpha.html
+    {{# toolboxes }}
+    [PR_FUNCTION, new RegExp('^\\b(?:{{{ re }}})\\b'), null],
+    {{/ toolboxes }}
 
+{{/ lite }}
     // plain identifier (user-defined variable/function name)
     [PR_IDENTIFIER, /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*/, null]
 ];

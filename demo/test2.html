@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Test</title>
+<link rel="stylesheet" type="text/css" href="css/prettify.css">
+<link rel="stylesheet" type="text/css" href="../css/lang-matlab.css">
+<script src="js/prettify.js"></script>
+<script src="../js/lang-matlab.js"></script>
+</head>
+
+<body>
+<h1>MATLAB Code</h1>
+<div id="container">
+<pre class="prettyprint lang-matlab">
+function out = fcn(in)
+    out = sin(in);
+end
+
+% example
+x = single(linspace(-6,6,100).');
+y = fcn(x);
+plot(x, y, 'LineWidth',2);
+</pre>
+</div>
+
+<h1>C++ Code</h1>
+<div>
+<pre class="prettyprint lang-cpp">
+void add(int x, int y) {
+    return x + y;
+}
+</pre>
+</div>
+</body>
+
+<script type="text/javascript">
+// prettify selectively
+PR.prettyPrint(function () {
+    //alert("done");
+}, document.getElementById('container'));
+</script>
+
+</html>

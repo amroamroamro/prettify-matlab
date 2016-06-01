@@ -60,6 +60,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         // user-defined data available for templates
         pkg: context.pkg,
+        banner:
+            '/*! Copyright (c) <%= grunt.template.today("yyyy") %>' +
+            ' by <%= pkg.author.name %>. <%= pkg.license %> license. */\n',
 
         // task: grunt-mustache-render
         mustache: {
@@ -103,6 +106,41 @@ module.exports = function (grunt) {
                         dest: 'dist/userscripts/' + name + '.user.js'
                     };
                 })
+            }
+        },
+
+        // task: grunt-contrib-uglify
+        uglify: {
+            ext: {
+                options: {
+                    report: 'gzip',
+                    ASCIIOnly: true,
+                    //maxLineLen: 1000,
+                    banner: '<%= banner %>'
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist/js/',
+                    src: ['{full,lite}/*.js', '!{full,lite}/*.min.js'],
+                    dest: 'dist/js/',
+                    ext: '.min.js'
+                }]
+            }
+        },
+
+        // grunt-contrib-cssmin
+        cssmin: {
+            ext: {
+                options: {
+                    report: 'gzip'
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist/css/',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'dist/css/',
+                    ext: '.min.css'
+                }]
             }
         },
 
@@ -155,13 +193,17 @@ module.exports = function (grunt) {
 
     // load grunt plugins for extra tasks
     grunt.loadNpmTasks('grunt-mustache-render');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.renameTask('mustache_render', 'mustache');
 
     // register tasks
     grunt.registerTask('ext', 'Build code-prettify extension.', [
-        'mustache:ext'
+        'mustache:ext',
+        'uglify:ext',
+        'cssmin:ext'
     ]);
     grunt.registerTask('userjs', 'Build userscripts.', [
         'mustache:userjs'

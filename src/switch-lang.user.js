@@ -38,7 +38,7 @@
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ../css/switch_lang.css
+        //=INSERT_FILE_QUOTED= ./switch_lang.css
     ].join(''));
 
     // insert JS code

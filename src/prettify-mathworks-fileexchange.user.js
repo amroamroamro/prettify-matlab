@@ -66,7 +66,7 @@
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ../css/lang-matlab.css
+        //=INSERT_FILE_QUOTED= ./matlab.css
         'pre.prettyprint {',
         '  white-space: pre;',
         '  overflow: auto;',

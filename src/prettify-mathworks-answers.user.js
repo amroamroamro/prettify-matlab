@@ -46,7 +46,7 @@
     // insert CSS styles
     GM_addStyle_external('http://cdn.rawgit.com/google/code-prettify/master/loader/prettify.css');
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ../css/lang-matlab.css
+        //=INSERT_FILE_QUOTED= ./matlab.css
         'pre.prettyprint {',
         '  white-space: pre;',
         '  overflow: auto;',

@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Stack Overflow: MATLAB syntax highlighter
-// @namespace      https://github.com/amroamroamro
 // @description    Enable MATLAB syntax highlighting on Stack Overflow
+// @namespace      https://github.com/amroamroamro
 // @author         Amro <amroamroamro@gmail.com>
 // @homepage       https://github.com/amroamroamro/prettify-matlab
+// @license        MIT
 // @version        1.3
-// @license        MIT License
 // @icon           http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
@@ -32,7 +32,7 @@
 
     // activate only on an actual question page
     // (ignore question lists, tag pages, and such)
-    if ( !/^\/questions\/(\d+|ask)/.test(window.location.pathname) ) {
+    if (!/^\/questions\/(\d+|ask)/.test(window.location.pathname)) {
         return;
     }
 
@@ -62,21 +62,16 @@
         '.tps { color: #000; }     /* transpose operator */',
         '.lcnt { color: #00F; }    /* line continuation */',
         '}',
-    ].join(''));
+    ].join('\n'));
 
     // insert JS code
     GM_addScript_inline(function () {
         // add to onReady queue of SE (a stub for $.ready)
         StackExchange.ready(function () {
             // check if question tags contain MATLAB
-            var isMATLAB = false;
-            var tags = document.getElementsByClassName('post-tag');
-            for (var i = 0; i < tags.length; ++i) {
-                if (tags[i].textContent === 'matlab') {
-                    isMATLAB = true;
-                    break;
-                }
-            }
+            var isMATLAB = $('a.post-tag').is(function () {
+                return /matlab/i.test($(this).text());
+            });
             if (!isMATLAB || !StackExchange.options.styleCode) {
                 return;
             }
@@ -84,39 +79,27 @@
             // check prettify JS library is available, otherwise lazy load it
             StackExchange.using('prettify', function () {
                 // register the new language handlers
-                RegisterMATLABLanguageHandlers();
+                registerMATLABLanguageHandlers();
 
-                // explicitly specify the lang for the whole page
-                var prLang = document.getElementById('prettify-lang');
-                prLang.textContent = 'lang-matlab';
-                // for each prettyprint <pre> blocks
-                var blocks = document.getElementsByTagName('pre');
-                for (var i = 0; i < blocks.length; ++i) {
-                    // look for embedded HTML5 <code> element
-                    if (blocks[i].className.indexOf('prettyprint') != -1 &&
-                            blocks[i].children.length &&
-                            blocks[i].children[0].tagName === 'CODE') {
-                        // remove existing formatting inside <code> tag by
-                        // resetting content to plain text. This is necessary
-                        // on Stack Overflow to avoid "double-styling"
-                        unprettify(blocks[i].children[0]);
+                // override the lang for the whole page
+                $('#prettify-lang').text('lang-matlab');
 
-                        // set the language to MATLAB
-                        blocks[i].className = 'prettyprint lang-matlab';
-                    }
-                }
+                // for each <pre.prettyprint> block,
+                // reset content to plain text,
+                // then apply prettyprint class, and set language to MATLAB
+                $('pre.prettyprint').each(function () {
+                    unprettify($(this).children('code'));
+                }).removeClass().addClass('prettyprint lang-matlab');
 
-                // reapply highlighting (calls window.prettyPrint() function)
+                // reapply highlighting (calls PR.prettyPrint)
                 StackExchange.prettify.applyCodeStyling();
             });
         });
 
-        function unprettify(codeNode) {
-            // <code> tag
-            var code = $(codeNode);
+        function unprettify(code) {
             // html encoded
             var encodedStr = code.html()
-                .replace(/<br[^>]*>/g, "\n")
+                .replace(/<br[^>]*>/g, '\n')
                 .replace(/&nbsp;/g, ' ');
             // decode html entities
             var decodedStr = $('<div/>').html(encodedStr).text();
@@ -124,7 +107,7 @@
             code.text(decodedStr);
         }
 
-        function RegisterMATLABLanguageHandlers() {
+        function registerMATLABLanguageHandlers() {
             // token names (correspond to CSS classes). We fallback to regular tokens
             // for stylesheets that don't style the custom tokens.
             /*
@@ -180,7 +163,7 @@
             // patterns that always start with a known character. Must have a shortcut string.
             var shortcutStylePatterns = [
                 // whitespaces: space, tab, carriage return, line feed, line tab, form-feed, non-break space
-                [PR.PR_PLAIN, /^[ \t\r\n\v\f\xA0]+/, null, " \t\r\n\u000b\u000c\u00a0"],
+                [PR.PR_PLAIN, /^[ \t\r\n\v\f\xA0]+/, null, ' \t\r\n\u000b\u000c\u00a0'],
 
                 // block comments
                 //TODO: chokes on nested block comments
@@ -189,10 +172,10 @@
                 [PR.PR_COMMENT, /^%\{[^%]*%+(?:[^\}%][^%]*%+)*\}/, null],
 
                 // single-line comments
-                [PR.PR_COMMENT, /^%[^\r\n]*/, null, "%"],
+                [PR.PR_COMMENT, /^%[^\r\n]*/, null, '%'],
 
                 // system commands
-                [PR_SYSCMD, /^![^\r\n]*/, null, "!"]
+                [PR_SYSCMD, /^![^\r\n]*/, null, '!']
             ];
 
             // patterns that will be tried in order if the shortcut ones fail. May have shortcuts.
@@ -215,12 +198,12 @@
                 // identifier (chain) or closing-parenthesis/brace/bracket,
                 // and IS followed by transpose operator. This way we dont misdetect the
                 // transpose operator ' as the start of a string
-                ["lang-matlab-operators", /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
+                ['lang-matlab-operators', /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
 
                 // identifier (chain), and NOT followed by transpose operator.
                 // This must come AFTER the "is followed by transpose" step
                 // (otherwise it chops the last char of identifier)
-                ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
+                ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
 
                 // single-quoted strings: allow for escaping with '', no multilines
                 [PR.PR_STRING, /^'(?:[^']|'')*'/, null],
@@ -231,7 +214,7 @@
                 [PR.PR_LITERAL, /^[+\-]?\.?\d+(?:\.\d*)?(?:[Ee][+\-]?\d+)?[ij]?/, null],
 
                 // parentheses, braces, brackets
-                [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
+                [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // '{}()[]'
 
                 // other operators
                 [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null]
@@ -260,10 +243,10 @@
 
             var operatorsPatterns = [
                 // forward to identifiers to match
-                ["lang-matlab-identifiers", /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
+                ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
 
                 // parentheses, braces, brackets
-                [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // "{}()[]"
+                [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // '{}()[]'
 
                 // other operators
                 [PR.PR_PUNCTUATION, /^(?:<|>|=|~|@|&|;|,|:|!|\-|\+|\*|\^|\.|\||\\|\/)/, null],
@@ -274,15 +257,15 @@
 
             PR.registerLangHandler(
                 PR.createSimpleLexer([], identifiersPatterns),
-                ["matlab-identifiers"]
+                ['matlab-identifiers']
             );
             PR.registerLangHandler(
                 PR.createSimpleLexer([], operatorsPatterns),
-                ["matlab-operators"]
+                ['matlab-operators']
             );
             PR.registerLangHandler(
                 PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
-                ["matlab"]
+                ['matlab']
             );
         }
     });

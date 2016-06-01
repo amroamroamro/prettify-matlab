@@ -2,10 +2,10 @@
 // @name           Stack Overflow: switch language of syntax highlighting
 // @description    Enable switching the language of syntax highlighting on Stack Overflow
 // @namespace      https://github.com/amroamroamro
-// @author         Amro <amroamroamro@gmail.com>
+// @author         Amro (amroamroamro@gmail.com)
 // @homepage       https://github.com/amroamroamro/prettify-matlab
 // @license        MIT
-// @version        1.3
+// @version        2.0
 // @icon           http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end

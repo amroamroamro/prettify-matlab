@@ -1,30 +1,29 @@
-MATLAB syntax highlighting for Google Code Prettify
-===================================================
+# MATLAB syntax highlighting for Google Code Prettify
 
-An implementation of MATLAB syntax highlighting for [google-code-prettify][1].
+> An implementation of MATLAB syntax highlighting for [google-code-prettify][1].
 
 The following constructs are recognized:
 
- - single line and block comments (`% comment` and `%{`,`%}`)
- - quoted string (`'hello world'`)
- - number literals (`1`, `-2.5`, `1i`, `2.9E-5`, etc...)
- - shell escape (`!touch filename`)
- - line continuation (`...`)
- - transpose operator (`x'` and `x.'`)
- - command prompt (`>> now`)
- - error/warning messages (`??? Error in ...` and `Warning: ...`)
- - parentheses, brackets, braces (`()`, `[]`, `{}`)
- - other operators (`<>=~@&;,:!-+*^.|\/`)
- - MATLAB language keywords (`if`, `else`, `end`, etc...)
- - some special variables and constants (`inf`, `nan`, `varargin`, etc..)
- - user-defined indentifiers (function and variable names not matched in
-   previous steps)
+- single line and block comments (`% comment` and `%{`,`%}`)
+- quoted string (`'hello world'`)
+- number literals (`1`, `-2.5`, `1i`, `2.9E-5`, etc...)
+- shell escape (`!touch filename`)
+- line continuation (`...`)
+- transpose operator (`x'` and `x.'`)
+- command prompt (`>> now`)
+- error/warning messages (`??? Error in ...` and `Warning: ...`)
+- parentheses, brackets, braces (`()`, `[]`, `{}`)
+- other operators (`<>=~@&;,:!-+*^.|\/`)
+- MATLAB language keywords (`if`, `else`, `end`, etc...)
+- some special variables and constants (`inf`, `nan`, `varargin`, etc..)
+- user-defined indentifiers (function and variable names not matched in
+  previous steps)
 
 It also highlights MATLAB functions:
 
- - over 1300 builtin functions from core [MATLAB][2] (`cos`, `plot`, etc...)
- - additional functions from popular toolboxes ([Statistics][3], [IPT][4],
-   and [Optimization][5])
+- over 1300 builtin functions from core [MATLAB][2] (`cos`, `plot`, etc...)
+- additional functions from popular toolboxes ([Statistics][3], [IPT][4],
+  and [Optimization][5])
 
 The project was inspired by the similar [Mathematica.SE][6] syntax
 highlighter.
@@ -32,9 +31,9 @@ highlighter.
 
 ## Build
 
-You can rebuild the project by running `rake SO:build`. This will create the
-output javascript files in the `js` directory using the templates sources from
-`src`.
+You can rebuild the project by running `rake` in the command line. This will
+generate the output javascript and stylesheet files in the [`dist`](dist/)
+directory using the source templates from the [`src`](src/) directory.
 
 This step requires [Rake][7] (only as a build-dependency), a Make-like build
 tool for Ruby, used here to provide basic template processing.
@@ -45,8 +44,8 @@ tool for Ruby, used here to provide basic template processing.
 To apply the MALTAB syntax highlighting on code snippets in your own web
 pages, first include the prettify scripts and stylesheets in your document (as
 explained in the [code-prettify][1] project documentation). Next include the
-[MATLAB language extension](js/lang-matlab.js), and place your source code
-inside a preformatted HTML tag as follows:
+[MATLAB language extension](dist/js/full/lang-matlab.js), and place your
+source code inside a preformatted HTML tag as follows:
 
 ``` html
 <html>
@@ -67,9 +66,9 @@ fprintf('sum(x^2) = %f\n', sum(x.^2));
 </html>
 ```
 
-When `prettyPrint()` is called, marked sections will be pretty-printed, and
+When `PR.prettyPrint()` is called, marked sections will be pretty-printed, and
 the default styles will be applied. You can customize them with your own, or
-use the provided [stylesheet](css/lang-matlab.css) which has a color scheme
+use the provided [stylesheet](dist/css/matlab.css) which has a color scheme
 inspired by that of the MATLAB IDE (with some modifications).
 
 See the [demo][8] page for a demonstration.
@@ -94,15 +93,15 @@ Apply MATLAB syntax hightighting on [Stack Overflow][13] and other
 Stack Exchange sites. The script is only activated on questions tagged as
 [`matlab`][14].
 
-[![Source][SourceButton]](js/prettify-matlab.user.js)
-[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-matlab.user.js)
+[![Source][SourceButton]](dist/userscripts/prettify-matlab.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-matlab.user.js)
 
 In addition, a separate userscript is included to allow switching the language
 used by the prettifier. It adds a small button to the top-right corner of each
 code block, with an attached drop-down menu to allow language selection.
 
-[![Source][SourceButton]](js/switch-lang.user.js)
-[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/switch-lang.user.js)
+[![Source][SourceButton]](dist/userscripts/switch-lang.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/switch-lang.user.js)
 
 UPDATE: Stack Overflow recently integrated MATLAB syntax support, so you
 should get proper syntax highlighting by default. This userscript is still
@@ -113,22 +112,22 @@ customized stylesheet which applies colors resembling the MATLAB editor.
 
 Apply MATLAB syntax hightighting on [MATLAB Answers][15].
 
-[![Source][SourceButton]](js/prettify-mathworks-answers.user.js)
-[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-mathworks-answers.user.js)
+[![Source][SourceButton]](dist/userscripts/prettify-mathworks-answers.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-answers.user.js)
 
 ### MathWorks File Exchange
 
 Apply MATLAB syntax hightighting on [File Exchange][16].
 
-[![Source][SourceButton]](js/prettify-mathworks-fileexchange.user.js)
-[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-mathworks-fileexchange.user.js)
+[![Source][SourceButton]](dist/userscripts/prettify-mathworks-fileexchange.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-fileexchange.user.js)
 
 ### MathWorks MATLAB Examples
 
 Apply MATLAB syntax hightighting on [MATLAB Examples][17].
 
-[![Source][SourceButton]](js/prettify-mathworks-examples.user.js)
-[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/js/prettify-mathworks-examples.user.js)
+[![Source][SourceButton]](dist/userscripts/prettify-mathworks-examples.user.js)
+[![Install][InstallButton]](https://rawgit.com/amroamroamro/prettify-matlab/master/dist/userscripts/prettify-mathworks-examples.user.js)
 
 
 ## License

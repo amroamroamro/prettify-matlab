@@ -28,7 +28,7 @@ plot(x, y, 'LineWidth',2);
 */}).toString().slice(14,-3);
 
 // prettify
-var html = prettyPrintOne(source, "matlab", false);
+var html = PR.prettyPrintOne(source, "matlab", false);
 var pre = document.createElement('pre');
 pre.className = 'prettyprint';
 pre.innerHTML = html;

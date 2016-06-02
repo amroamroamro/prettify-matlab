@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Stack Overflow: MATLAB syntax highlighter
 // @description    Enable MATLAB syntax highlighting on Stack Overflow
-// @namespace      https://github.com/amroamroamro
-// @author         Amro <amroamroamro@gmail.com>
-// @homepage       https://github.com/amroamroamro/prettify-matlab
-// @license        MIT
-// @version        1.3
+// @namespace      {{{ pkg.author.url }}}
+// @author         {{{ pkg.author.name }}} ({{{ pkg.author.email }}})
+// @homepage       {{{ pkg.homepage }}}
+// @license        {{{ pkg.license }}}
+// @version        2.0
 // @icon           http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
 // @include        http://stackoverflow.com/questions/*
 // @run-at         document-end
@@ -38,7 +38,7 @@
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ./matlab.css
+        {{# indentLines2 }}{{# quoteLines }}{{> src/matlab.css }}{{/ quoteLines }}{{/ indentLines2 }}
     ].join('\n'));
 
     // insert JS code
@@ -85,7 +85,7 @@
         }
 
         function registerMATLABLanguageHandlers() {
-            //=RENDER_FILE= ./_main.js
+            {{# indentLines3 }}{{> src/_main.js }}{{/ indentLines3 }}
         }
     });
 })();

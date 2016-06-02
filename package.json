@@ -1,0 +1,48 @@
+{
+  "name": "prettify-matlab",
+  "version": "2.0.0",
+  "description": "MATLAB syntax highlighting for google-code-prettify",
+  "keywords": [
+    "matlab",
+    "syntax",
+    "highlight",
+    "prettify",
+    "google-code-prettify"
+  ],
+  "author": {
+    "name": "Amro",
+    "email": "amroamroamro@gmail.com",
+    "url": "https://github.com/amroamroamro"
+  },
+  "homepage": "https://github.com/amroamroamro/prettify-matlab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amroamroamro/prettify-matlab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amroamroamro/prettify-matlab/issues"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "dist/js/full/lang-matlab.js",
+  "scripts": {
+    "build": "grunt default",
+    "test": "grunt test"
+  },
+  "engines": {
+    "npm": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-csslint": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^18.1.0",
+    "grunt-jscs": "^2.8.0",
+    "grunt-mustache-render": "^1.9.0",
+    "lodash": "^4.13.1"
+  }
+}

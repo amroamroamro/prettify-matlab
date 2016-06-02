@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name           MathWorks File Exchange: MATLAB syntax highlighter
 // @description    Enable MATLAB syntax highlighting on File Exchange
-// @namespace      https://github.com/amroamroamro
-// @author         Amro <amroamroamro@gmail.com>
-// @homepage       https://github.com/amroamroamro/prettify-matlab
-// @license        MIT
+// @namespace      {{{ pkg.author.url }}}
+// @author         {{{ pkg.author.name }}} ({{{ pkg.author.email }}})
+// @homepage       {{{ pkg.homepage }}}
+// @license        {{{ pkg.license }}}
 // @version        2.0
 // @icon           http://www.mathworks.com/favicon.ico
 // @include        http://www.mathworks.com/matlabcentral/fileexchange/*
@@ -65,7 +65,9 @@
 
     // insert CSS styles
     GM_addStyle_inline([
-        //=INSERT_FILE_QUOTED= ./matlab.css
+        {{# indentLines2 }}{{# quoteLines }}{{> src/matlab.css }}{{/ quoteLines }}{{/ indentLines2 }}
+    ].join('\n'));
+    GM_addStyle_inline([
         'pre.prettyprint {',
         '  white-space: pre;',
         '  overflow: auto;',
@@ -102,7 +104,7 @@
         }
 
         function registerMATLABLanguageHandlers() {
-            //=RENDER_FILE= ./_main.js
+            {{# indentLines3 }}{{> src/_main.js }}{{/ indentLines3 }}
         }
     });
 })();

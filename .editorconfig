@@ -1,0 +1,19 @@
+# Define coding style for editors and IDEs
+# http://EditorConfig.org
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[{package.json,.jshintrc,.jscsrc,.eslintrc.json}]
+indent_style = space
+indent_size = 2
+
+[{.travis.yml,appveyor.yml}]
+indent_style = space
+indent_size = 2

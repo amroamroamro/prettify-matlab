@@ -1,5 +1,11 @@
 # MATLAB syntax highlighting for Google Code Prettify
 
+[![Build Status](https://travis-ci.org/amroamroamro/prettify-matlab.svg?branch=master)](https://travis-ci.org/amroamroamro/prettify-matlab)
+[![Build Status](https://ci.appveyor.com/api/projects/status/8bur8fe9t84ahnyr/branch/master?svg=true)](https://ci.appveyor.com/project/amroamroamro/prettify-matlab/branch/master)
+[![devDependency Status](https://david-dm.org/amroamroamro/prettify-matlab/dev-status.svg)](https://david-dm.org/amroamroamro/prettify-matlab#info=devDependencies)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > An implementation of MATLAB syntax highlighting for [google-code-prettify][1].
 
 The following constructs are recognized:

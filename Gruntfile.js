@@ -109,6 +109,23 @@ module.exports = function (grunt) {
             }
         },
 
+        // task: grunt-contrib-copy
+        copy: {
+            userjs: {
+                src: 'dist/userscripts/prettify-matlab.user.js',
+                dest: '<%= copy.userjs.src %>',
+                options: {
+                    //HACK: replace matlab with matlab2 for Stack Overflow,
+                    // because we cannot override an existing language handler
+                    process: function (content) {
+                        return content
+                            .replace(/lang-matlab/g, 'lang-matlab2')
+                            .replace(/'matlab/g, "'matlab2");
+                    }
+                }
+            }
+        },
+
         // task: grunt-contrib-jshint
         jshint: {
             options: {
@@ -294,6 +311,7 @@ module.exports = function (grunt) {
 
     // load grunt plugins for extra tasks
     grunt.loadNpmTasks('grunt-mustache-render');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-eslint');
@@ -328,6 +346,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('userjs', 'Build userscripts.', [
         'mustache:userjs',
+        'copy:userjs',
         'jshint:userjs',
         'jscs:userjs',
         'eslint:userjs'

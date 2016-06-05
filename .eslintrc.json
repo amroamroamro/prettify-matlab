@@ -2,7 +2,8 @@
   "env": {
     "browser": true,        // document, window
     "node": true,           // module, require
-    "jquery": true          // $
+    "jquery": true,         // $
+    "mocha": true           // describe, before, after, it, etc...
     //"greasemonkey": true  // GM_*
   },
   "globals": {

@@ -48,6 +48,9 @@ To rebuild the project, run the following in the command line:
 $ cd prettify-matlab
 $ npm install
 $ npm run build
+
+# (optional) run unit tests
+$ npm test
 ```
 
 First this will install build dependencies, then generate the output

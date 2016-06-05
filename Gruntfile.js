@@ -126,6 +126,9 @@ module.exports = function (grunt) {
             },
             userjs: {
                 src: 'dist/userscripts/*.user.js'
+            },
+            unittest: {
+                src: 'test/*.js'
             }
         },
 
@@ -143,6 +146,9 @@ module.exports = function (grunt) {
             },
             userjs: {
                 src: '<%= jshint.userjs.src %>'
+            },
+            unittest: {
+                src: '<%= jshint.unittest.src %>'
             }
         },
 
@@ -160,6 +166,9 @@ module.exports = function (grunt) {
             },
             userjs: {
                 src: '<%= jshint.userjs.src %>'
+            },
+            unittest: {
+                src: '<%= jshint.unittest.src %>'
             }
         },
 
@@ -221,6 +230,18 @@ module.exports = function (grunt) {
             }
         },
 
+        // task: grunt-simple-mocha
+        simplemocha: {
+            options: {
+                ui: 'bdd',
+                reporter: 'spec',
+                bail: false
+            },
+            unittest: {
+                src: 'test/*.js'
+            }
+        },
+
         // task: grunt-contrib-watch
         watch: {
             options: {
@@ -253,7 +274,7 @@ module.exports = function (grunt) {
                     'src/*.css',
                     'src/lang-matlab.js'
                 ],
-                tasks: ['ext']
+                tasks: ['ext', 'simplemocha']
             },
             userjs: {
                 files: [
@@ -263,6 +284,10 @@ module.exports = function (grunt) {
                     'src/*.user.js'
                 ],
                 tasks: ['userjs']
+            },
+            unittest: {
+                files: 'test/*.js',
+                tasks: ['test']
             }
         }
     });
@@ -276,6 +301,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-simple-mocha');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.renameTask('mustache_render', 'mustache');
 
@@ -311,6 +337,11 @@ module.exports = function (grunt) {
         'ext',
         'userjs'
     ]);
-    grunt.registerTask('test', 'Run unit tests.', []);
+    grunt.registerTask('test', 'Run unit tests.', [
+        'jshint:unittest',
+        'jscs:unittest',
+        'eslint:unittest',
+        'simplemocha:unittest'
+    ]);
     grunt.registerTask('default', ['build', 'test']);
 };

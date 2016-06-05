@@ -119,7 +119,10 @@ module.exports = function (grunt) {
                 src: 'Gruntfile.js'
             },
             ext: {
-                src: ['dist/js/{full,lite}/*.js', '!dist/js/{full,lite}/*.min.js']
+                src: [
+                    'dist/js/{full,lite}/*.js',
+                    '!dist/js/{full,lite}/*.min.js'
+                ]
             },
             userjs: {
                 src: 'dist/userscripts/*.user.js'
@@ -229,7 +232,19 @@ module.exports = function (grunt) {
                     reload: true
                 },
                 files: ['Gruntfile.js', 'package.json'],
-                tasks: ['all']
+                tasks: ['build']
+            },
+            lint_jshint: {
+                files: '.jshintrc',
+                tasks: ['jshint']
+            },
+            lint_jscs: {
+                files: '.jscsrc',
+                tasks: ['jscs']
+            },
+            lint_eslint: {
+                files: '.eslintrc.json',
+                tasks: ['eslint']
             },
             ext: {
                 files: [
@@ -265,6 +280,12 @@ module.exports = function (grunt) {
     grunt.renameTask('mustache_render', 'mustache');
 
     // register tasks
+    grunt.registerTask('lint', 'Lint all source files.', [
+        'jshint',
+        'jscs',
+        'eslint',
+        'csslint'
+    ]);
     grunt.registerTask('proj', 'Lint project files.', [
         'jshint:proj',
         'jscs:proj',
@@ -285,11 +306,11 @@ module.exports = function (grunt) {
         'jscs:userjs',
         'eslint:userjs'
     ]);
-    grunt.registerTask('all', 'Build all targets.', [
+    grunt.registerTask('build', 'Build all targets.', [
         'proj',
         'ext',
         'userjs'
     ]);
-    grunt.registerTask('test', []);  //TODO
-    grunt.registerTask('default', ['all']);
+    grunt.registerTask('test', 'Run unit tests.', []);
+    grunt.registerTask('default', ['build', 'test']);
 };

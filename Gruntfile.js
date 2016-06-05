@@ -128,7 +128,7 @@ module.exports = function (grunt) {
                 src: 'dist/userscripts/*.user.js'
             },
             unittest: {
-                src: 'test/*.js'
+                src: ['test/*.js', 'test/fixtures/*.js']
             }
         },
 
@@ -286,7 +286,7 @@ module.exports = function (grunt) {
                 tasks: ['userjs']
             },
             unittest: {
-                files: 'test/*.js',
+                files: ['test/*.js', 'test/fixtures/*.js'],
                 tasks: ['test']
             }
         }

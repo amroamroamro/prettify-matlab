@@ -82,14 +82,14 @@
                 registerMATLABLanguageHandlers();
 
                 // override the lang for the whole page
-                $('#prettify-lang').text('lang-matlab');
+                $('#prettify-lang').text('lang-matlab2');
 
                 // for each <pre.prettyprint> block,
                 // reset content to plain text,
                 // then apply prettyprint class, and set language to MATLAB
                 $('pre.prettyprint').each(function () {
                     unprettify($(this).children('code'));
-                }).removeClass().addClass('prettyprint lang-matlab');
+                }).removeClass().addClass('prettyprint lang-matlab2');
 
                 // reapply highlighting (calls PR.prettyPrint)
                 StackExchange.prettify.applyCodeStyling();
@@ -180,12 +180,12 @@
                 // identifier (chain) or closing-parenthesis/brace/bracket,
                 // and IS followed by transpose operator. This way we dont misdetect the
                 // transpose operator ' as the start of a string
-                ['lang-matlab-operators', /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
+                ['lang-matlab2-operators', /^((?:[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*|\)|\]|\}|\.)')/, null],
 
                 // identifier (chain), and NOT followed by transpose operator.
                 // This must come AFTER the "is followed by transpose" step
                 // (otherwise it chops the last char of identifier)
-                ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
+                ['lang-matlab2-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)(?!')/, null],
 
                 // single-quoted strings: allow for escaping with '', no multilines
                 [PR.PR_STRING, /^'(?:[^']|'')*'/, null],
@@ -230,7 +230,7 @@
 
             var operatorsPatterns = [
                 // forward to identifiers to match
-                ['lang-matlab-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
+                ['lang-matlab2-identifiers', /^([a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*)/, null],
 
                 // parentheses, braces, brackets
                 [PR_PARENS, /^(?:\{|\}|\(|\)|\[|\])/, null],  // '{}()[]'
@@ -244,15 +244,15 @@
 
             PR.registerLangHandler(
                 PR.createSimpleLexer([], identifiersPatterns),
-                ['matlab-identifiers']
+                ['matlab2-identifiers']
             );
             PR.registerLangHandler(
                 PR.createSimpleLexer([], operatorsPatterns),
-                ['matlab-operators']
+                ['matlab2-operators']
             );
             PR.registerLangHandler(
                 PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
-                ['matlab']
+                ['matlab2']
             );
         }
     });

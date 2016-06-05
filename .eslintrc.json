@@ -2,7 +2,8 @@
   "env": {
     "browser": true,        // document, window
     "node": true,           // module, require
-    "jquery": true          // $
+    "jquery": true,         // $
+    "mocha": true           // describe, before, after, it, etc...
     //"greasemonkey": true  // GM_*
   },
   "globals": {
@@ -35,7 +36,8 @@
     "key-spacing": "error",
     "keyword-spacing": "error",
     "linebreak-style": ["error", "unix"],
-    "no-alert": "error",
+    "no-alert": "warn",
+    "no-console": "warn",
     "no-bitwise": "error",
     "no-else-return": "error",
     "no-empty-function": "error",

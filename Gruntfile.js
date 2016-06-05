@@ -109,6 +109,23 @@ module.exports = function (grunt) {
             }
         },
 
+        // task: grunt-contrib-copy
+        copy: {
+            userjs: {
+                src: 'dist/userscripts/prettify-matlab.user.js',
+                dest: '<%= copy.userjs.src %>',
+                options: {
+                    //HACK: replace matlab with matlab2 for Stack Overflow,
+                    // because we cannot override an existing language handler
+                    process: function (content) {
+                        return content
+                            .replace(/lang-matlab/g, 'lang-matlab2')
+                            .replace(/'matlab/g, "'matlab2");
+                    }
+                }
+            }
+        },
+
         // task: grunt-contrib-jshint
         jshint: {
             options: {
@@ -119,10 +136,16 @@ module.exports = function (grunt) {
                 src: 'Gruntfile.js'
             },
             ext: {
-                src: ['dist/js/{full,lite}/*.js', '!dist/js/{full,lite}/*.min.js']
+                src: [
+                    'dist/js/{full,lite}/*.js',
+                    '!dist/js/{full,lite}/*.min.js'
+                ]
             },
             userjs: {
                 src: 'dist/userscripts/*.user.js'
+            },
+            unittest: {
+                src: ['test/*.js', 'test/fixtures/*.js']
             }
         },
 
@@ -140,6 +163,9 @@ module.exports = function (grunt) {
             },
             userjs: {
                 src: '<%= jshint.userjs.src %>'
+            },
+            unittest: {
+                src: '<%= jshint.unittest.src %>'
             }
         },
 
@@ -157,6 +183,9 @@ module.exports = function (grunt) {
             },
             userjs: {
                 src: '<%= jshint.userjs.src %>'
+            },
+            unittest: {
+                src: '<%= jshint.unittest.src %>'
             }
         },
 
@@ -218,6 +247,18 @@ module.exports = function (grunt) {
             }
         },
 
+        // task: grunt-simple-mocha
+        simplemocha: {
+            options: {
+                ui: 'bdd',
+                reporter: 'spec',
+                bail: false
+            },
+            unittest: {
+                src: 'test/*.js'
+            }
+        },
+
         // task: grunt-contrib-watch
         watch: {
             options: {
@@ -229,7 +270,19 @@ module.exports = function (grunt) {
                     reload: true
                 },
                 files: ['Gruntfile.js', 'package.json'],
-                tasks: ['all']
+                tasks: ['build']
+            },
+            lint_jshint: {
+                files: '.jshintrc',
+                tasks: ['jshint']
+            },
+            lint_jscs: {
+                files: '.jscsrc',
+                tasks: ['jscs']
+            },
+            lint_eslint: {
+                files: '.eslintrc.json',
+                tasks: ['eslint']
             },
             ext: {
                 files: [
@@ -238,7 +291,7 @@ module.exports = function (grunt) {
                     'src/*.css',
                     'src/lang-matlab.js'
                 ],
-                tasks: ['ext']
+                tasks: ['ext', 'simplemocha']
             },
             userjs: {
                 files: [
@@ -248,12 +301,17 @@ module.exports = function (grunt) {
                     'src/*.user.js'
                 ],
                 tasks: ['userjs']
+            },
+            unittest: {
+                files: ['test/*.js', 'test/fixtures/*.js'],
+                tasks: ['test']
             }
         }
     });
 
     // load grunt plugins for extra tasks
     grunt.loadNpmTasks('grunt-mustache-render');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-eslint');
@@ -261,10 +319,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-simple-mocha');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.renameTask('mustache_render', 'mustache');
 
     // register tasks
+    grunt.registerTask('lint', 'Lint all source files.', [
+        'jshint',
+        'jscs',
+        'eslint',
+        'csslint'
+    ]);
     grunt.registerTask('proj', 'Lint project files.', [
         'jshint:proj',
         'jscs:proj',
@@ -281,15 +346,21 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('userjs', 'Build userscripts.', [
         'mustache:userjs',
+        'copy:userjs',
         'jshint:userjs',
         'jscs:userjs',
         'eslint:userjs'
     ]);
-    grunt.registerTask('all', 'Build all targets.', [
+    grunt.registerTask('build', 'Build all targets.', [
         'proj',
         'ext',
         'userjs'
     ]);
-    grunt.registerTask('test', []);  //TODO
-    grunt.registerTask('default', ['all']);
+    grunt.registerTask('test', 'Run unit tests.', [
+        'jshint:unittest',
+        'jscs:unittest',
+        'eslint:unittest',
+        'simplemocha:unittest'
+    ]);
+    grunt.registerTask('default', ['build', 'test']);
 };

@@ -48,6 +48,9 @@ To rebuild the project, run the following in the command line:
 $ cd prettify-matlab
 $ npm install
 $ npm run build
+
+# (optional) run unit tests
+$ npm test
 ```
 
 First this will install build dependencies, then generate the output
@@ -59,15 +62,15 @@ source templates from the [`src`](src/) directory.
     |-- js/
     |    |-- full/
     |    |    |-- lang-matlab.js      # code-prettify extension (full version)
-    |    |    |-- lang-matlab.js.min  # and minimized version
+    |    |    |-- lang-matlab.min.js  # and minified version
     |    |
     |    |-- lite/
     |         |-- lang-matlab.js      # code-prettify extension (lite version)
-    |         |-- lang-matlab.js.min  # and minimized version
+    |         |-- lang-matlab.min.js  # and minified version
     |
     |-- css/
     |    |-- matlab.css               # optional skin for code-prettify
-    |    |-- matlab.css.min           # and minimized version
+    |    |-- matlab.min.css           # and minified version
     |
     |-- userscripts/
          |-- prettify-matlab.user.js                  # userscripts for
@@ -77,7 +80,7 @@ source templates from the [`src`](src/) directory.
          |-- prettify-mathworks-examples.user.js      #  websites
 
 
-## Usage (google-code-prettify extension)
+## Usage: Extension
 
 | Version | Source                                                 |
 | ------- |------------------------------------------------------- |
@@ -125,7 +128,7 @@ load both code-prettify along with the MATLAB extension via one URL:
 ```
 
 
-## Userscripts
+## Usage: Userscripts
 
 For instructions on installing userscripts for various browsers, see
 [this page][11]. Also check out the wiki for [sample screenshots][12].

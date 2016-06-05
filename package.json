@@ -30,7 +30,7 @@
     "test": "grunt test"
   },
   "engines": {
-    "npm": ">= 0.10.0"
+    "node": ">= 4.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
